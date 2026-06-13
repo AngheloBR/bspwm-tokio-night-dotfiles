@@ -1,590 +1,593 @@
 #!/usr/bin/env python3
 """
-Genera 10 wallpapers Tokyo Night + Material You usando HTML+CSS
-Convertidos a PNG con WeasyPrint (1920x1080)
+TOKYO NIGHT + MATERIAL YOU WALLPAPER COLLECTION — 20 VARIATIONS
+HTML+CSS → PNG via WeasyPrint + pdftoppm
+1920x1080 Full HD
 """
 
-import os
-import subprocess
+import os, subprocess, math
 from weasyprint import HTML
 
-OUT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "wallpapers"))
+OUT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "wallpapers"))
 W, H = 1920, 1080
 
-CSS_BASE = """
-  @page { size: 1920px 1080px; margin: 0; }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { width: 1920px; height: 1080px; overflow: hidden; position: relative; }
+BASE = """@page { size: 1920px 1080px; margin: 0; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1920px; height: 1080px; overflow: hidden; position: relative; }
 """
 
-# Paleta Tokyo Night
-TN = {
-    "bg": "#1a1b26", "surface": "#24283b", "surface2": "#2f3549",
-    "blue": "#7aa2f7", "cyan": "#7dcfff", "green": "#9ece6a",
-    "orange": "#e0af68", "red": "#f7768e", "purple": "#bb9af7",
-    "text": "#c0caf5", "subtext": "#565f89", "pink": "#ff9e64",
-}
+# Palette
+N = "#1a1b26"
+I = "#2c2e3f"
+DP = "#3d3f4d"
+T = "#26c6da"
+P = "#ec407a"
+PU = "#ab47bc"
+TX = "#c0caf5"
+S = "#565f89"
 
-def render(name, body_html, extra_css=""):
-    html = f"""<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8">
-<style>
-{CSS_BASE}
-{extra_css}
-</style>
-</head>
-<body>
-{body_html}
-</body>
-</html>"""
-    os.makedirs(OUT_DIR, exist_ok=True)
-    pdf_path = os.path.join(OUT_DIR, name.replace(".png", ".pdf"))
-    png_path = os.path.join(OUT_DIR, name)
-    HTML(string=html).write_pdf(pdf_path)
-    subprocess.run(["pdftoppm", "-png", "-r", "96", "-singlefile",
-                    pdf_path, png_path.replace(".png", "")],
-                   capture_output=True, check=True)
-    os.remove(pdf_path)
-    size_kb = os.path.getsize(png_path) // 1024
-    print(f"  ✓ {name} ({size_kb} KB)")
+def render(name, body, css):
+    html = f"<!DOCTYPE html><html><meta charset='utf-8'><style>{BASE}{css}</style><body>{body}</body></html>"
+    os.makedirs(OUT, exist_ok=True)
+    pdf = os.path.join(OUT, name.replace(".png", ".pdf"))
+    png = os.path.join(OUT, name)
+    HTML(string=html).write_pdf(pdf)
+    subprocess.run(["pdftoppm", "-png", "-r", "96", "-singlefile", pdf, png.replace(".png", "")], check=True, capture_output=True)
+    os.remove(pdf)
+    print(f"  ✓ {name}  ({os.path.getsize(png)//1024} KB)")
 
+def circle(cx, cy, r, color, opacity=1, blur=0, border=False):
+    b = f"border:1px solid {color};" if border else ""
+    bl = f"filter:blur({blur}px);" if blur else ""
+    return f"<div style='position:absolute;left:{cx}px;top:{cy}px;width:{r*2}px;height:{r*2}px;border-radius:50%;background:{color};opacity:{opacity};{b}{bl}transform:translate(-50%,-50%)'></div>"
 
-def w1_glass_orbs():
-    """Esferas flotantes glassmorphism + mesh gradient"""
+def rect(x, y, w, h, color, opacity=1, blur=0, rot=0):
+    bl = f"filter:blur({blur}px);" if blur else ""
+    r2 = f"transform:rotate({rot}deg);" if rot else ""
+    return f"<div style='position:absolute;left:{x}px;top:{y}px;width:{w}px;height:{h}px;background:{color};opacity:{opacity};{bl}{r2}'></div>"
+
+def text(txt, x, y, size=14, color=TX, weight=300, align="left", spacing=2):
+    return f"<div style='position:absolute;left:{x}px;top:{y}px;font-family:sans-serif;font-size:{size}px;color:{color};font-weight:{weight};letter-spacing:{spacing}px;text-align:{align}'>{txt}</div>"
+
+# ═══════════════════════════════════════════════════════════════
+# 1 — MINIMALIST GEOMETRIC NIGHT
+# ═══════════════════════════════════════════════════════════════
+def w01():
     css = f"""
-    body {{
-      background: linear-gradient(135deg, {TN['bg']} 0%, #13141f 50%, {TN['bg']} 100%);
-    }}
-    .orb {{
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.4;
-    }}
-    .o1 {{ width: 600px; height: 600px; top: -100px; left: -100px;
-           background: radial-gradient(circle, {TN['blue']}, {TN['purple']}); }}
-    .o2 {{ width: 500px; height: 500px; bottom: -150px; right: -100px;
-           background: radial-gradient(circle, {TN['cyan']}, {TN['blue']}); }}
-    .o3 {{ width: 400px; height: 400px; top: 300px; left: 700px;
-           background: radial-gradient(circle, {TN['purple']}, {TN['pink']}); }}
-    .card {{
-      position: absolute;
-      top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 500px; height: 280px;
-      background: rgba(36, 40, 59, 0.35);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(122, 162, 247, 0.15);
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-    }}
-    .card h1 {{ color: {TN['blue']}; font-family: sans-serif; font-size: 32px;
-                letter-spacing: 4px; font-weight: 300; margin-bottom: 8px; }}
-    .card p {{ color: {TN['text']}; font-family: sans-serif; font-size: 14px;
-               opacity: 0.6; letter-spacing: 2px; }}
-    .line {{ width: 60px; height: 1px; background: {TN['blue']}; margin: 12px 0; opacity: 0.4; }}
+    body {{ background: linear-gradient(135deg, {N}, #13131f); }}
+    .g1 {{ position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+           width:1000px;height:1000px;background:radial-gradient(circle at 30% 40%, {PU}08, {T}06, transparent);
+           filter:blur(60px); }}
     """
-    body = """
-    <div class="orb o1"></div>
-    <div class="orb o2"></div>
-    <div class="orb o3"></div>
-    <div class="card">
-      <h1>TOKYO NIGHT</h1>
-      <div class="line"></div>
-      <p>STYX</p>
-    </div>"""
-    render("tokyo-glass-orbs.png", body, css)
+    body = f'<div class="g1"></div>'
+    for cx, cy, r, c, o in [
+        (200, 200, 180, PU, 0.12), (400, 600, 120, T, 0.15), (700, 300, 100, P, 0.10),
+        (1200, 700, 200, T, 0.08), (1500, 200, 140, PU, 0.12), (1000, 800, 90, P, 0.10),
+        (1700, 800, 160, T, 0.06), (300, 900, 80, PU, 0.10), (1400, 500, 110, P, 0.08),
+        (600, 950, 70, T, 0.12),
+    ]:
+        body += circle(cx, cy, r, c, o)
+    body += text("26°C", 80, 80, 48, T, 100, "left", 4)
+    body += text("TOKYO NIGHT", 80, 140, 13, S, 300, "left", 6)
+    render("01-minimal-geometric.png", body, css)
 
 
-def w2_mountains():
-    """Montañas CSS clip-path con cielo estrellado"""
+# ═══════════════════════════════════════════════════════════════
+# 2 — GLASSMORPHISM MATERIAL YOU
+# ═══════════════════════════════════════════════════════════════
+def w02():
     css = f"""
-    body {{
-      background: linear-gradient(180deg, {TN['bg']} 0%, #13141f 40%, {TN['surface']} 100%);
+    body {{ background: linear-gradient(160deg, {N}, #11101a, {DP}); }}
+    .g {{
+      position:absolute; width:420px; height:200px; border-radius:20px;
+      background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06);
+      backdrop-filter:blur(20px); box-shadow:0 8px 32px rgba(0,0,0,0.3);
     }}
-    .star {{ position: absolute; width: 2px; height: 2px; background: {TN['text']};
-             border-radius: 50%; opacity: 0.5; }}
-    .mountain {{
-      position: absolute; bottom: 0; width: 100%; height: 700px;
-    }}
-    .m1 {{
-      clip-path: polygon(0% 100%, 5% 50%, 15% 55%, 22% 35%, 30% 45%, 38% 25%, 45% 35%,
-                         50% 20%, 55% 30%, 62% 15%, 70% 25%, 78% 30%, 85% 20%,
-                         92% 35%, 100% 40%, 100% 100%);
-      background: linear-gradient(180deg, {TN['purple']}44, {TN['purple']}22);
-    }}
-    .m2 {{
-      clip-path: polygon(0% 100%, 3% 55%, 12% 60%, 18% 40%, 25% 50%, 32% 30%,
-                         40% 45%, 48% 35%, 55% 48%, 62% 25%, 70% 35%,
-                         78% 20%, 85% 30%, 92% 25%, 100% 35%, 100% 100%);
-      background: linear-gradient(180deg, {TN['blue']}33, {TN['blue']}11);
-    }}
-    .m3 {{
-      clip-path: polygon(0% 100%, 0% 60%, 8% 65%, 15% 45%, 22% 55%,
-                         30% 40%, 38% 50%, 45% 30%, 52% 45%, 60% 35%,
-                         68% 50%, 75% 28%, 82% 40%, 90% 30%, 100% 45%, 100% 100%);
-      background: {TN['surface']};
-    }}
-    .peak {{
-      position: absolute; width: 4px; height: 30px;
-      background: linear-gradient(180deg, {TN['cyan']}, transparent);
-      filter: blur(2px);
-    }}
-    .sun {{
-      position: absolute; top: 250px; left: 50%; transform: translateX(-50%);
-      width: 120px; height: 120px; border-radius: 50%;
-      background: radial-gradient(circle, {TN['cyan']}44, transparent);
-      filter: blur(20px);
-    }}
+    .a {{ position:absolute; width:250px; height:250px; border-radius:50%; filter:blur(70px); opacity:0.25; }}
     """
-    stars = "".join(f'<div class="star" style="top:{r*1000}px;left:{r*1900}px"></div>'
-                    for r in [0.05, 0.12, 0.18, 0.23, 0.31, 0.37, 0.42, 0.48, 0.55, 0.61, 0.67, 0.73, 0.79, 0.84, 0.91])
     body = f"""
-    {stars}
-    <div class="sun"></div>
-    <div class="mountain m3"></div>
-    <div class="mountain m2"></div>
-    <div class="mountain m1"></div>
+    <div class='a' style='top:-50px;left:-50px;background:{PU}'></div>
+    <div class='a' style='bottom:-80px;right:-60px;background:{T}'></div>
+    <div class='a' style='top:400px;left:800px;background:{P}'></div>
+    <div class='g' style='top:120px;left:200px'></div>
+    <div class='g' style='top:200px;left:500px;height:160px'></div>
+    <div class='g' style='top:350px;left:350px;width:350px;height:180px'></div>
+    <div class='g' style='top:600px;left:600px;width:380px;height:150px'></div>
+    <div class='g' style='top:550px;left:200px;width:300px;height:170px'></div>
     """
-    render("tokyo-mountains.png", body, css)
+    body += text("STYX", 1200, 850, 64, PU, 100, "left", 8)
+    body += text("TOKYO NIGHT", 1200, 920, 13, S, 300, "left", 6)
+    render("02-glassmorphism.png", body, css)
 
 
-def w3_neon_grid():
-    """Grid cyberpunk con sol central"""
+# ═══════════════════════════════════════════════════════════════
+# 3 — ABSTRACT NIGHT LANDSCAPE
+# ═══════════════════════════════════════════════════════════════
+def w03():
     css = f"""
-    body {{
-      background: linear-gradient(180deg, {TN['bg']} 0%, #0f0f1a 100%);
+    body {{ background: linear-gradient(180deg, {N}, #0f0f1f, {DP}22); }}
+    .m {{
+      position:absolute; bottom:0; width:100%;
+      clip-path:polygon(0% 100%, 2% 65%, 5% 68%, 8% 50%, 12% 55%, 15% 40%,
+                        18% 45%, 22% 30%, 25% 35%, 28% 20%, 32% 28%, 35% 15%,
+                        38% 22%, 42% 10%, 45% 18%, 48% 8%, 52% 15%, 55% 5%,
+                        58% 12%, 62% 3%, 65% 10%, 68% 2%, 72% 8%, 75% 15%,
+                        78% 5%, 82% 12%, 85% 8%, 88% 18%, 92% 12%, 95% 22%,
+                        98% 15%, 100% 25%, 100% 100%);
     }}
-    .grid {{
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background-image:
-        linear-gradient(rgba(122,162,247,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(122,162,247,0.06) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }}
-    .horizon {{
-      position: absolute; top: 50%; left: 0; width: 100%; height: 400px;
-      background: linear-gradient(180deg, transparent, {TN['blue']}08);
-    }}
-    .sun-glow {{
-      position: absolute; top: 380px; left: 50%; transform: translateX(-50%);
-      width: 500px; height: 300px;
-      background: radial-gradient(ellipse at center, {TN['cyan']}22, {TN['blue']}11, transparent);
-      filter: blur(40px);
-    }}
-    .sun {{
-      position: absolute; top: 420px; left: 50%; transform: translateX(-50%);
-      width: 100px; height: 100px; border-radius: 50%;
-      background: radial-gradient(circle, #fff, {TN['cyan']}, {TN['blue']}66);
-      box-shadow: 0 0 80px {TN['cyan']}44, 0 0 200px {TN['blue']}22;
-    }}
-    .vline {{
-      position: absolute; height: 100%;
-      width: 1px;
-      background: linear-gradient(180deg, transparent, {TN['blue']}15, transparent);
-    }}
+    .s {{ position:absolute; width:2px; height:2px; border-radius:50%; }}
     """
-    vlines = "".join(f'<div class="vline" style="left:{x}px"></div>' for x in range(60, 1920, 120))
+    body = ""
+    for i in range(40):
+        body += f"<div class='s' style='top:{30+i*25}px;left:{20+i*48}px;background:{TX};opacity:{0.1+(i%5)*0.05}'></div>"
+    body += f"<div class='m' style='height:650px;background:linear-gradient(180deg,{PU}33,{N})'></div>"
+    body += f"<div class='m' style='height:550px;background:linear-gradient(180deg,{I}44,{N})'></div>"
+    body += f"<div class='m' style='height:450px;background:linear-gradient(180deg,{N},{N})'></div>"
+    body += text("TOKYO · 03:47", 80, 80, 18, TX, 100, "left", 4)
+    body += text("NIGHT LANDSCAPE", 80, 110, 11, S, 300, "left", 6)
+    render("03-night-landscape.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 4 — DEVELOPER CODE AESTHETIC
+# ═══════════════════════════════════════════════════════════════
+def w04():
+    css = f"""
+    body {{ background: {N}; }}
+    .line {{ position:absolute; height:20px; border-radius:3px; opacity:0.1; }}
+    """
     body = f"""
-    <div class="grid"></div>
-    <div class="horizon"></div>
-    <div class="sun-glow"></div>
-    <div class="sun"></div>
-    {vlines}
-    """
-    render("tokyo-neon-grid.png", body, css)
-
-
-def w4_concentric_rings():
-    """Anillos concéntricos con glow"""
-    css = f"""
-    body {{
-      background: radial-gradient(ellipse at center, #1a1b32, {TN['bg']});
-    }}
-    .ring {{
-      position: absolute; border-radius: 50%;
-      border: 1px solid; left: 50%; top: 50%;
-      transform: translate(-50%, -50%);
-    }}
-    .glow {{
-      position: absolute; border-radius: 50%;
-      left: 50%; top: 50%; transform: translate(-50%, -50%);
-      filter: blur(60px);
-    }}
-    .center {{
-      position: absolute; border-radius: 50%;
-      left: 50%; top: 50%; transform: translate(-50%, -50%);
-      width: 8px; height: 8px;
-      background: {TN['blue']};
-      box-shadow: 0 0 40px {TN['blue']}, 0 0 80px {TN['blue']}44;
-    }}
-    """
-    rings_data = [
-        (60, TN['blue'], 0.15), (100, TN['cyan'], 0.12), (150, TN['purple'], 0.10),
-        (200, TN['blue'], 0.08), (260, TN['cyan'], 0.07), (330, TN['purple'], 0.06),
-        (410, TN['blue'], 0.05), (500, TN['cyan'], 0.04), (600, TN['purple'], 0.03),
-        (720, TN['blue'], 0.025), (850, TN['cyan'], 0.02), (1000, TN['purple'], 0.015),
-    ]
-    rings = "".join(f'<div class="ring" style="width:{r*2}px;height:{r*2}px;border-color:{c}{hex(int(a*255))[2:].zfill(2)}"></div>'
-                    for r, c, a in rings_data)
-    body = f"""
-    <div class="glow" style="width:300px;height:300px;background:{TN['blue']}15"></div>
-    <div class="glow" style="width:500px;height:500px;background:{TN['purple']}10"></div>
-    {rings}
-    <div class="center"></div>
-    """
-    render("tokyo-concentric-rings.png", body, css)
-
-
-def w5_blobs():
-    """Formas orgánicas Material You con blur"""
-    css = f"""
-    body {{
-      background: linear-gradient(135deg, {TN['bg']}, #11111f, {TN['bg']});
-    }}
-    .blob {{
-      position: absolute; border-radius: 50%;
-      filter: blur(50px); opacity: 0.35;
-    }}
-    .b1 {{
-      width: 700px; height: 550px; top: -50px; left: -100px;
-      background: {TN['blue']};
-      border-radius: 60% 40% 70% 30%;
-    }}
-    .b2 {{
-      width: 600px; height: 600px; bottom: -100px; right: -80px;
-      background: {TN['purple']};
-      border-radius: 50% 50% 30% 70%;
-    }}
-    .b3 {{
-      width: 450px; height: 450px; top: 350px; left: 600px;
-      background: {TN['cyan']};
-      border-radius: 40% 60% 50% 50%;
-    }}
-    .b4 {{
-      width: 300px; height: 300px; top: 100px; right: 200px;
-      background: {TN['pink']};
-      border-radius: 70% 30% 50% 50%;
-    }}
-    .b5 {{
-      width: 250px; height: 250px; bottom: 200px; left: 300px;
-      background: {TN['green']};
-      border-radius: 30% 70% 60% 40%;
-    }}
-    .label {{
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      color: {TN['text']}; font-family: sans-serif; font-size: 48px;
-      font-weight: 100; letter-spacing: 8px; text-shadow: 0 0 40px rgba(0,0,0,0.8);
-      opacity: 0.8;
-    }}
-    .sub {{
-      position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
-      color: {TN['subtext']}; font-family: sans-serif; font-size: 14px;
-      letter-spacing: 6px; margin-top: 20px;
-    }}
-    """
-    body = """
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-    <div class="blob b4"></div>
-    <div class="blob b5"></div>
-    <div class="label">TOKYO</div>
-    <div class="sub">MATERIAL YOU</div>
-    """
-    render("tokyo-blobs.png", body, css)
-
-
-def w6_waves():
-    """Olas CSS con gradiente"""
-    css = f"""
-    body {{
-      background: linear-gradient(180deg, {TN['bg']}, #11111f, {TN['surface']});
-    }}
-    .wave {{
-      position: absolute; bottom: 0; width: 100%;
-    }}
-    .w1 {{
-      height: 400px;
-      background: linear-gradient(180deg, transparent, {TN['blue']}08);
-      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 400'%3E%3Cpath d='M0,200 C320,40 640,360 960,200 C1280,40 1600,360 1920,200 L1920,400 L0,400 Z' fill='black'/%3E%3C/svg%3E");
-      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 400'%3E%3Cpath d='M0,200 C320,40 640,360 960,200 C1280,40 1600,360 1920,200 L1920,400 L0,400 Z' fill='black'/%3E%3C/svg%3E");
-    }}
-    .w2 {{
-      height: 350px;
-      background: linear-gradient(180deg, transparent, {TN['purple']}06);
-      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 350'%3E%3Cpath d='M0,175 C400,350 800,0 1200,175 C1600,350 1800,0 1920,175 L1920,350 L0,350 Z' fill='black'/%3E%3C/svg%3E");
-      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 350'%3E%3Cpath d='M0,175 C400,350 800,0 1200,175 C1600,350 1800,0 1920,175 L1920,350 L0,350 Z' fill='black'/%3E%3C/svg%3E");
-    }}
-    .w3 {{
-      height: 300px;
-      background: linear-gradient(180deg, transparent, {TN['cyan']}04);
-      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 300'%3E%3Cpath d='M0,150 C300,0 600,300 900,150 C1200,0 1500,300 1920,150 L1920,300 L0,300 Z' fill='black'/%3E%3C/svg%3E");
-      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 300'%3E%3Cpath d='M0,150 C300,0 600,300 900,150 C1200,0 1500,300 1920,150 L1920,300 L0,300 Z' fill='black'/%3E%3C/svg%3E");
-    }}
-    .dot {{
-      position: absolute; width: 3px; height: 3px;
-      border-radius: 50%; opacity: 0.3;
-    }}
-    """
-    dots = "".join(f'<div class="dot" style="top:{r*1000}px;left:{r*1900}px;background:{TN["blue"]}"></div>'
-                   for r in [0.03, 0.08, 0.15, 0.22, 0.28, 0.35, 0.42, 0.48, 0.55, 0.62, 0.68, 0.75, 0.82, 0.88, 0.95])
-    body = f"""
-    {dots}
-    <div class="wave w3"></div>
-    <div class="wave w2"></div>
-    <div class="wave w1"></div>
-    """
-    render("tokyo-waves.png", body, css)
-
-
-def w7_dots():
-    """Patrón de puntos con glow central"""
-    css = f"""
-    body {{
-      background: {TN['bg']};
-    }}
-    .dot-grid {{
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background-image: radial-gradient(circle, {TN['subtext']}33 1px, transparent 1px);
-      background-size: 40px 40px;
-    }}
-    .glow-center {{
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 600px; height: 600px; border-radius: 50%;
-      background: radial-gradient(circle, {TN['blue']}15, {TN['purple']}08, transparent);
-      filter: blur(40px);
-    }}
-    .ring-dot {{
-      position: absolute; border-radius: 50%;
-      left: 50%; top: 50%; transform: translate(-50%, -50%);
-      background: radial-gradient(circle, {TN['blue']}44, transparent);
-    }}
-    .vline {{
-      position: absolute; width: 1px; height: 100%;
-      background: linear-gradient(180deg, transparent, {TN['blue']}08, transparent);
-    }}
-    .hline {{
-      position: absolute; height: 1px; width: 100%;
-      background: linear-gradient(90deg, transparent, {TN['blue']}08, transparent);
-    }}
-    """
-    body = """
-    <div class="dot-grid"></div>
-    <div class="glow-center"></div>
-    <div class="vline" style="left:20%"></div>
-    <div class="vline" style="left:40%"></div>
-    <div class="vline" style="left:60%"></div>
-    <div class="vline" style="left:80%"></div>
-    <div class="hline" style="top:20%"></div>
-    <div class="hline" style="top:40%"></div>
-    <div class="hline" style="top:60%"></div>
-    <div class="hline" style="top:80%"></div>
-    """
-    render("tokyo-dots.png", body, css)
-
-
-def w8_minimal_dawn():
-    """Amanecer minimalista con sol"""
-    css = f"""
-    body {{
-      background: linear-gradient(180deg, {TN['bg']} 0%, #171725 40%, #1f1f35 100%);
-    }}
-    .horizon {{
-      position: absolute; top: 55%; left: 0; width: 100%; height: 1px;
-      background: linear-gradient(90deg, transparent, {TN['blue']}22, transparent);
-    }}
-    .sun {{
-      position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
-      width: 100px; height: 100px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, {TN['orange']}, #d06a3a);
-      box-shadow:
-        0 0 40px {TN['orange']}44,
-        0 0 80px {TN['orange']}33,
-        0 0 160px {TN['orange']}22,
-        0 0 300px {TN['pink']}11;
-    }}
-    .glow-bg {{
-      position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
-      width: 800px; height: 400px;
-      background: radial-gradient(ellipse at center, {TN['orange']}11, transparent);
-      filter: blur(60px);
-    }}
-    .mount {{
-      position: absolute; bottom: 0; width: 100%; height: 450px;
-      background: linear-gradient(180deg, {TN['surface']}88, {TN['bg']});
-      clip-path: polygon(0% 100%, 2% 80%, 5% 82%, 8% 70%, 12% 72%, 15% 60%,
-                         18% 65%, 22% 50%, 25% 55%, 28% 45%, 32% 48%, 35% 38%,
-                         38% 42%, 42% 35%, 45% 38%, 48% 28%, 52% 32%, 55% 25%,
-                         58% 28%, 62% 20%, 65% 25%, 68% 18%, 72% 22%, 75% 15%,
-                         78% 18%, 82% 12%, 85% 15%, 88% 10%, 92% 14%, 95% 8%,
-                         98% 12%, 100% 15%, 100% 100%);
-    }}
-    """
-    body = """
-    <div class="glow-bg"></div>
-    <div class="sun"></div>
-    <div class="horizon"></div>
-    <div class="mount"></div>
-    """
-    render("tokyo-minimal-dawn.png", body, css)
-
-
-def w9_polygons():
-    """Fragmentos poligonales con glass"""
-    css = f"""
-    body {{
-      background: linear-gradient(135deg, {TN['bg']}, #0e0e1a);
-    }}
-    .shard {{
-      position: absolute;
-      opacity: 0.15;
-      backdrop-filter: blur(10px);
-      border: 1px solid;
-    }}
-    .s1 {{
-      top: 5%; left: 5%; width: 300px; height: 300px;
-      background: linear-gradient(135deg, {TN['blue']}22, {TN['purple']}11);
-      border-color: {TN['blue']}22;
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      transform: rotate(15deg);
-    }}
-    .s2 {{
-      top: 60%; left: 60%; width: 400px; height: 400px;
-      background: linear-gradient(225deg, {TN['purple']}22, {TN['cyan']}11);
-      border-color: {TN['purple']}22;
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      transform: rotate(-10deg);
-    }}
-    .s3 {{
-      top: 30%; left: 70%; width: 200px; height: 200px;
-      background: linear-gradient(45deg, {TN['cyan']}22, {TN['blue']}11);
-      border-color: {TN['cyan']}22;
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      transform: rotate(25deg);
-    }}
-    .s4 {{
-      top: 55%; left: 15%; width: 250px; height: 250px;
-      background: linear-gradient(180deg, {TN['pink']}22, {TN['orange']}11);
-      border-color: {TN['pink']}22;
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      transform: rotate(-20deg);
-    }}
-    .s5 {{
-      top: 15%; left: 55%; width: 180px; height: 180px;
-      background: linear-gradient(90deg, {TN['green']}22, {TN['cyan']}11);
-      border-color: {TN['green']}22;
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      transform: rotate(40deg);
-    }}
-    .center-glow {{
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 300px; height: 300px; border-radius: 50%;
-      background: radial-gradient(circle, {TN['blue']}10, transparent);
-      filter: blur(30px);
-    }}
-    """
-    body = """
-    <div class="shard s1"></div>
-    <div class="shard s2"></div>
-    <div class="shard s3"></div>
-    <div class="shard s4"></div>
-    <div class="shard s5"></div>
-    <div class="center-glow"></div>
-    """
-    render("tokyo-polygons.png", body, css)
-
-
-def w10_line_art():
-    """Arte lineal minimalista"""
-    css = f"""
-    body {{
-      background: linear-gradient(160deg, {TN['bg']}, #111122);
-    }}
-    .canvas {{
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 800px; height: 600px;
-    }}
-    .curve {{
-      position: absolute;
-      width: 100%; height: 100%;
-    }}
-    .c1 {{
-      border: 1px solid {TN['blue']}33;
-      border-radius: 50%;
-      top: 10%; left: 10%; width: 80%; height: 80%;
-    }}
-    .c2 {{
-      border: 1px solid {TN['purple']}22;
-      border-radius: 50%;
-      top: 20%; left: 15%; width: 70%; height: 60%;
-    }}
-    .c3 {{
-      border: 1px solid {TN['cyan']}22;
-      border-radius: 50%;
-      top: 5%; left: 25%; width: 50%; height: 90%;
-    }}
-    .c4 {{
-      border: 1px solid {TN['pink']}18;
-      border-radius: 50%;
-      top: 30%; left: 5%; width: 90%; height: 40%;
-    }}
-    .dot {{
-      position: absolute; width: 4px; height: 4px;
-      border-radius: 50%; background: {TN['blue']}; opacity: 0.6;
-    }}
-    .line-h {{
-      position: absolute; height: 1px; width: 200px;
-      background: linear-gradient(90deg, transparent, {TN['blue']}44, transparent);
-    }}
-    .line-v {{
-      position: absolute; width: 1px; height: 200px;
-      background: linear-gradient(180deg, transparent, {TN['purple']}44, transparent);
-    }}
-    .label {{
-      position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-      color: {TN['subtext']}; font-family: sans-serif; font-size: 11px;
-      letter-spacing: 6px; opacity: 0.5;
-    }}
-    """
-    body = """
-    <div class="canvas">
-      <div class="curve c1"></div>
-      <div class="curve c2"></div>
-      <div class="curve c3"></div>
-      <div class="curve c4"></div>
-      <div class="dot" style="top:30%;left:50%"></div>
-      <div class="dot" style="top:50%;left:30%"></div>
-      <div class="dot" style="top:60%;left:70%"></div>
-      <div class="dot" style="top:25%;left:65%"></div>
-      <div class="dot" style="top:70%;left:40%"></div>
-      <div class="line-h" style="top:50%;left:50%"></div>
-      <div class="line-v" style="top:50%;left:50%"></div>
+    <div style='position:absolute;left:60px;top:60px;font-family:monospace;font-size:14px;line-height:1.8;color:{TX};opacity:0.15;'>
+    function __init__() &#123;<br>
+    &nbsp;&nbsp;const night = "tokyo";<br>
+    &nbsp;&nbsp;const accent = "material";<br>
+    &nbsp;&nbsp;return night.concat(accent).toUpper();<br>
+    &#125;<br><br>
+    for (let i = 0; i &lt; 256; i++) &#123;<br>
+    &nbsp;&nbsp;draw(i, i * 0.618);<br>
+    &#125;
     </div>
-    <div class="label">MINIMAL</div>
+    <div style='position:absolute;left:960px;top:60px;font-family:monospace;font-size:14px;line-height:1.8;color:{TX};opacity:0.06;'>
+    {chr(10).join('  "0x{:04x}": "tokyo-night",'.format(i) for i in range(0, 256, 8))}
+    </div>
     """
-    render("tokyo-line-art.png", body, css)
+    for i in range(5):
+        body += f"<div style='position:absolute;left:{200+i*350}px;top:{400+i*80}px;font-family:monospace;font-size:48px;color:{[PU,T,P][i%3]};opacity:0.25;'>&#123;&#125;</div>"
+    body += text("$ echo night", 80, 920, 16, T, 300, "left", 3)
+    body += text("TOKYO NIGHT // DEVELOPER", 80, 950, 10, S, 300, "left", 5)
+    render("04-developer-code.png", body, css)
 
 
+# ═══════════════════════════════════════════════════════════════
+# 5 — ORGANIC FLUID GRADIENT
+# ═══════════════════════════════════════════════════════════════
+def w05():
+    css = f"""
+    body {{ background: {N}; }}
+    .b {{ position:absolute; border-radius:50%; filter:blur(80px); opacity:0.3; }}
+    """
+    body = f"""
+    <div class='b' style='width:900px;height:700px;top:-200px;left:-200px;background:{PU}'></div>
+    <div class='b' style='width:800px;height:800px;bottom:-300px;right:-200px;background:{T}'></div>
+    <div class='b' style='width:600px;height:600px;top:200px;left:600px;background:{P}'></div>
+    <div class='b' style='width:400px;height:400px;top:600px;left:200px;background:{PU}'></div>
+    <div class='b' style='width:500px;height:500px;top:100px;right:200px;background:{T}'></div>
+    <div class='b' style='width:350px;height:350px;bottom:100px;left:900px;background:{P}'></div>
+    """
+    render("05-fluid-gradient.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 6 — RETRO CYBERPUNK GRID
+# ═══════════════════════════════════════════════════════════════
+def w06():
+    css = f"""
+    body {{ background: linear-gradient(180deg, {N}, #0a0a12); }}
+    .grid {{
+      position:absolute;top:0;left:0;width:100%;height:100%;
+      background-image:
+        linear-gradient(rgba(171,71,188,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(171,71,188,0.04) 1px, transparent 1px);
+      background-size:40px 40px;
+      transform:perspective(800px) rotateX(50deg);
+      transform-origin:50% 100%;
+    }}
+    .sg {{ position:absolute; bottom:0; width:100%; height:500px;
+           background:linear-gradient(0deg, {N}, transparent); }}
+    .sun {{ position:absolute;bottom:350px;left:50%;transform:translateX(-50%);
+            width:120px;height:120px;border-radius:50%;
+            background:radial-gradient(circle, {T}, {PU}66);
+            box-shadow:0 0 80px {T}44,0 0 200px {PU}22; }}
+    .h {{ position:absolute;bottom:400px;left:0;width:100%;height:2px;
+          background:linear-gradient(90deg,transparent,{T}44,{PU}44,transparent); }}
+    """
+    body = f"""
+    <div class='grid'></div><div class='sg'></div><div class='sun'></div><div class='h'></div>
+    """
+    body += text("NIGHT", 80, 80, 56, T, 100, "left", 10)
+    body += text("CYBERPUNK", 80, 145, 12, S, 300, "left", 8)
+    body += text("2026", 1760, 1010, 12, S, 100, "right", 6)
+    render("06-retro-grid.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 7 — MATERIAL YOU BUBBLES
+# ═══════════════════════════════════════════════════════════════
+def w07():
+    css = f"""
+    body {{ background: linear-gradient(135deg, {N}, #12121e); }}
+    .g {{ position:absolute; width:600px; height:600px;
+          background:radial-gradient(circle at 30% 40%, {T}08, transparent);
+          filter:blur(50px); border-radius:50%; }}
+    .b {{
+      position:absolute; border-radius:50%;
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow:inset 0 -20px 40px rgba(0,0,0,0.2), 0 10px 30px rgba(0,0,0,0.3);
+    }}
+    """
+    body = f"<div class='g' style='left:50%;top:50%;transform:translate(-50%,-50%)'></div>"
+    for cx, cy, r in [
+        (300, 300, 180), (600, 700, 140), (1400, 300, 200),
+        (1200, 700, 120), (900, 500, 160), (1600, 800, 100),
+        (400, 200, 80), (1000, 900, 90), (200, 800, 60),
+    ]:
+        colors = [T, P, PU]
+        c = colors[(cx+cy)//200 % 3]
+        body += f"<div class='b' style='left:{cx-r}px;top:{cy-r}px;width:{r*2}px;height:{r*2}px;border-color:{c}22'></div>"
+    body += text("zen · 静寂", 1530, 940, 18, TX, 100, "right", 4)
+    body += text("MATERIAL YOU", 1530, 975, 10, S, 300, "right", 6)
+    render("07-bubbles.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 8 — DYNAMIC FLOWING LINES
+# ═══════════════════════════════════════════════════════════════
+def w08():
+    css = f"""
+    body {{ background: linear-gradient(160deg, {N}, #11101a); }}
+    .s {{ position:absolute; width:600px; height:600px; border-radius:50%; filter:blur(100px); opacity:0.15; }}
+    """
+    body = f"""
+    <div class='s' style='top:-100px;left:-100px;background:{PU}'></div>
+    <div class='s' style='bottom:-100px;right:-100px;background:{T}'></div>
+    <div class='s' style='top:400px;left:800px;background:{P}'></div>
+    """
+    for i in range(40):
+        y1 = 100 + i * 25
+        x1 = 200 + 40 * math.sin(i * 0.3)
+        x2 = 1700 - 50 * math.sin(i * 0.4)
+        colors = [T, PU, P]
+        c = colors[i % 3]
+        body += f"<div style='position:absolute;top:{y1}px;left:{x1}px;width:{x2-x1}px;height:1px;background:linear-gradient(90deg,{c},{c}00);opacity:0.15'></div>"
+    body += text("flow", 80, 80, 48, T, 100, "left", 6)
+    body += text("DYNAMIC LINES", 80, 135, 11, S, 300, "left", 6)
+    render("08-flowing-lines.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 9 — BOKEH NIGHT LIGHTS
+# ═══════════════════════════════════════════════════════════════
+def w09():
+    css = f"""
+    body {{ background: linear-gradient(180deg, {N}, #0d0d18); }}
+    .b {{
+      position:absolute; border-radius:50%;
+      filter:blur(15px);
+    }}
+    .v {{ position:absolute;top:0;left:0;width:100%;height:100%;
+          background:radial-gradient(ellipse at 50% 60%, transparent 40%, {N}88 90%); }}
+    """
+    body = "<div class='v'></div>"
+    for cx, cy, r, c, o in [
+        (400, 300, 80, T, 0.3), (700, 500, 60, PU, 0.25), (1100, 200, 100, P, 0.2),
+        (1500, 600, 70, T, 0.3), (300, 700, 50, PU, 0.2), (900, 800, 90, P, 0.15),
+        (1300, 400, 65, T, 0.25), (600, 200, 45, P, 0.2), (1700, 300, 55, PU, 0.2),
+        (500, 900, 40, T, 0.15), (1000, 100, 35, PU, 0.2), (1600, 800, 75, P, 0.15),
+        (200, 500, 30, T, 0.2), (800, 400, 50, P, 0.2), (1400, 700, 45, T, 0.15),
+        (1800, 500, 60, PU, 0.15),
+    ]:
+        body += f"<div class='b' style='left:{cx-r}px;top:{cy-r}px;width:{r*2}px;height:{r*2}px;background:radial-gradient(circle,{c},transparent);opacity:{o}'></div>"
+    body += text("NIGHT LIGHTS", 80, 80, 28, TX, 100, "left", 6)
+    body += text("TOKYO BOKEH", 80, 118, 11, S, 300, "left", 6)
+    render("09-bokeh-lights.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 10 — GEOMETRIC MANDALA TECH
+# ═══════════════════════════════════════════════════════════════
+def w10():
+    css = f"""
+    body {{ background: radial-gradient(ellipse at center, #13131e, {N}); }}
+    .r {{ position:absolute; border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); }}
+    """
+    body = ""
+    for i in range(40):
+        r = 30 + i * 22
+        c = [PU, T, P][i % 3]
+        o = 0.12 - i * 0.003
+        w = 1 if i % 3 == 0 else 0.5
+        body += f"<div class='r' style='width:{r*2}px;height:{r*2}px;border:{w}px solid {c};opacity:{max(o,0.02)}'></div>"
+        if i % 4 == 0:
+            body += f"<div class='r' style='width:{r*2}px;height:{r*2}px;border:{w*2}px dashed {c};opacity:{max(o*0.5,0.015)};border-radius:0;transform:translate(-50%,-50%) rotate({i*15}deg)'></div>"
+    body += text("TOKYO NIGHT", 80, 80, 16, TX, 100, "left", 6)
+    body += text("GEOMETRIC", 80, 110, 10, S, 300, "left", 6)
+    render("10-mandala-tech.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 11 — MINIMALIST GEOMETRIC NIGHT (Variant A)
+# ═══════════════════════════════════════════════════════════════
+def w11():
+    css = f"""
+    body {{ background: linear-gradient(160deg, #13131f, {N}); }}
+    .g {{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+          width:1000px; height:1000px; background:radial-gradient(circle at 60% 50%, {T}08, transparent);
+          filter:blur(60px); }}
+    """
+    body = '<div class="g"></div>'
+    for i in range(18):
+        cx = 100 + (i % 6) * 300 + (i // 6) * 50
+        cy = 200 + (i // 6) * 300
+        r = 60 + (i % 3) * 30
+        c = [T, P, PU][i % 3]
+        body += circle(cx, cy, r, c, 0.15)
+    body += text("26°C · TOKYO", 1380, 920, 18, T, 100, "right", 4)
+    body += text("MINIMAL VARIANT A", 1380, 950, 10, S, 300, "right", 6)
+    render("11-minimal-geometric-a.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 12 — GLASSMORPHISM (Variant A)
+# ═══════════════════════════════════════════════════════════════
+def w12():
+    css = f"""
+    body {{ background: linear-gradient(180deg, {N}, #12101e); }}
+    .g {{
+      position:absolute; border-radius:16px;
+      background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.04);
+      backdrop-filter:blur(15px); box-shadow:0 4px 20px rgba(0,0,0,0.2);
+    }}
+    .a {{ position:absolute; width:300px; height:300px; border-radius:50%; filter:blur(60px); opacity:0.2; }}
+    """
+    body = f"""
+    <div class='a' style='top:100px;left:100px;background:{P}'></div>
+    <div class='a' style='bottom:100px;right:100px;background:{T}'></div>
+    <div class='g' style='top:80px;left:80px;width:1760px;height:120px'></div>
+    <div class='g' style='top:250px;left:80px;width:800px;height:700px'></div>
+    <div class='g' style='top:250px;left:920px;width:920px;height:340px'></div>
+    <div class='g' style='top:630px;left:920px;width:440px;height:320px'></div>
+    <div class='g' style='top:630px;left:1390px;width:450px;height:320px'></div>
+    """
+    body += text("STYX", 1080, 340, 64, PU, 100, "left", 8)
+    body += text("GLASS VARIANT A", 1080, 410, 12, S, 300, "left", 6)
+    render("12-glassmorphism-a.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 13 — ABSTRACT NIGHT LANDSCAPE (Variant A) — Urban skyline
+# ═══════════════════════════════════════════════════════════════
+def w13():
+    css = f"""
+    body {{ background: linear-gradient(180deg, {N}, #0e0e1a); }}
+    .b {{ position:absolute; bottom:0; }}
+    .s {{ height:1px; width:{'100%'}; background:linear-gradient(90deg,transparent,{T}44,transparent);
+          position:absolute; bottom:350px; left:0; }}
+    """
+    body = f"<div class='s'></div>"
+    buildings = [(0, 450, I), (60, 520, DP), (120, 380, I), (180, 600, DP), (260, 350, I),
+                 (340, 500, DP), (420, 420, I), (490, 550, DP), (560, 380, I), (630, 480, DP),
+                 (710, 600, I), (790, 400, DP), (860, 520, I), (940, 350, DP), (1000, 450, I),
+                 (1080, 580, DP), (1160, 420, I), (1230, 500, DP), (1310, 380, I), (1380, 550, DP),
+                 (1460, 440, I), (1530, 480, DP), (1590, 360, I), (1650, 520, DP), (1720, 400, I),
+                 (1800, 460, DP), (1860, 350, I)]
+    for x, h, c in buildings:
+        body += f"<div class='b' style='left:{x}px;width:40px;height:{h}px;background:{c}'></div>"
+        y_win = 20
+        while y_win < h - 20:
+            body += f"<div class='b' style='left:{x+8}px;width:24px;height:2px;background:{PU}33;bottom:{y_win}px'></div>"
+            y_win += 25
+    body += f"<div style='position:absolute;bottom:0;left:0;width:100%;height:400px;background:linear-gradient(0deg,{N},transparent)'></div>"
+    body += text("TOKYO STREET", 80, 80, 24, TX, 100, "left", 5)
+    body += text("URBAN VARIANT", 80, 115, 10, S, 300, "left", 6)
+    render("13-night-landscape-a.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 14 — DEVELOPER CODE AESTHETIC (Variant A) — JSON
+# ═══════════════════════════════════════════════════════════════
+def w14():
+    css = f"""
+    body {{ background: {N}; }}
+    .m {{ position:absolute; width:1px; height:100%;
+          background:linear-gradient(180deg,transparent,{T}06,transparent); }}
+    """
+    body = ""
+    for x in range(100, 1900, 120):
+        body += f"<div class='m' style='left:{x}px'></div>"
+    body += f"""
+    <div style='position:absolute;left:120px;top:80px;font-family:monospace;font-size:13px;line-height:1.6;color:{TX};opacity:0.18;'>
+    &nbsp;1 &#123; "theme": "tokyo_night",<br>
+    &nbsp;2 &nbsp;&nbsp;"colors": &#123;<br>
+    &nbsp;3 &nbsp;&nbsp;&nbsp;&nbsp;"primary": "<span style='color:{T}'>#26c6da</span>",<br>
+    &nbsp;4 &nbsp;&nbsp;&nbsp;&nbsp;"accent": "<span style='color:{PU}'>#ab47bc</span>",<br>
+    &nbsp;5 &nbsp;&nbsp;&nbsp;&nbsp;"highlight": "<span style='color:{P}'>#ec407a</span>",<br>
+    &nbsp;6 &nbsp;&nbsp;&nbsp;&nbsp;"bg": "#1a1b26"<br>
+    &nbsp;7 &nbsp;&nbsp;&#125;,<br>
+    &nbsp;8 &nbsp;&nbsp;"fonts": [<br>
+    &nbsp;9 &nbsp;&nbsp;&nbsp;&nbsp;"JetBrains Mono",<br>
+    &nbsp;10 &nbsp;&nbsp;&nbsp;&nbsp;"SF Pro Display"<br>
+    &nbsp;11 &nbsp;&nbsp;]<br>
+    &nbsp;12 &#125;
+    </div>
+    """
+    for i in range(30):
+        body += f"<div style='position:absolute;left:{120+i*70}px;top:{200+i*25}px;font-family:monospace;font-size:8px;color:{T};opacity:0.03;'>01011000 01111001 01101100 01101111 01101110</div>"
+    body += text("$ cat theme.json", 80, 920, 14, PU, 300, "left", 3)
+    body += text("DEVELOPER VARIANT A · JSON", 80, 950, 9, S, 300, "left", 5)
+    render("14-developer-code-a.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 15 — ORGANIC FLUID GRADIENT (Variant A)
+# ═══════════════════════════════════════════════════════════════
+def w15():
+    css = f"""
+    body {{ background: {N}; }}
+    .b {{ position:absolute; border-radius:50%; filter:blur(90px); opacity:0.35; }}
+    """
+    body = f"""
+    <div class='b' style='width:1000px;height:600px;top:-200px;left:-100px;background:{P}'></div>
+    <div class='b' style='width:800px;height:800px;top:200px;left:400px;background:{PU}'></div>
+    <div class='b' style='width:900px;height:500px;bottom:-100px;right:-200px;background:{T}'></div>
+    <div class='b' style='width:400px;height:400px;top:700px;left:200px;background:{P}'></div>
+    """
+    render("15-fluid-gradient-a.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 16 — RETRO CYBERPUNK GRID (Variant A) — Diagonal perspective
+# ═══════════════════════════════════════════════════════════════
+def w16():
+    css = f"""
+    body {{ background: linear-gradient(180deg, {N}, #080810); }}
+    .grid {{
+      position:absolute;top:0;left:0;width:100%;height:100%;
+      background-image:
+        linear-gradient(rgba(38,198,218,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(171,71,188,0.03) 1px, transparent 1px);
+      background-size:60px 60px;
+      transform:perspective(600px) rotateX(60deg) rotateZ(-10deg);
+      transform-origin:50% 100%;
+    }}
+    .sg {{ position:absolute; bottom:0; width:100%; height:400px;
+           background:linear-gradient(0deg, {N}, transparent); }}
+    .s {{ position:absolute;bottom:300px;left:50%;transform:translateX(-50%);
+          width:200px;height:200px;border-radius:50%;
+          background:radial-gradient(circle, {T}, transparent);
+          opacity:0.3;filter:blur(30px); }}
+    """
+    body = f"<div class='grid'></div><div class='sg'></div><div class='s'></div>"
+    body += text("NIGHT", 80, 80, 56, T, 100, "left", 10)
+    body += text("SYNTHWAVE", 80, 145, 12, S, 300, "left", 8)
+    render("16-retro-grid-a.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 17 — MATERIAL YOU BUBBLES (Variant A)
+# ═══════════════════════════════════════════════════════════════
+def w17():
+    css = f"""
+    body {{ background: linear-gradient(180deg, {N}, #12121e); }}
+    .b {{
+      position:absolute; border-radius:50%;
+      background:rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow:inset 0 -30px 60px rgba(0,0,0,0.15), 0 15px 40px rgba(0,0,0,0.2);
+    }}
+    """
+    body = ""
+    for cx, cy, r, c in [
+        (560, 540, 320, T), (1360, 540, 280, P),
+        (400, 200, 100, PU), (1520, 200, 120, T),
+        (200, 800, 80, P), (1720, 800, 90, PU),
+        (960, 200, 60, T), (960, 880, 60, P),
+    ]:
+        body += f"<div class='b' style='left:{cx-r}px;top:{cy-r}px;width:{r*2}px;height:{r*2}px;border-color:{c}22'></div>"
+        body += f"<div style='position:absolute;left:{cx-r//2}px;top:{cy-r//2}px;width:{r}px;height:{r}px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent)'></div>"
+    body += text("bubbles · 泡", 1480, 930, 18, TX, 100, "right", 4)
+    body += text("VARIANT A · OVERLAP", 1480, 960, 10, S, 300, "right", 6)
+    render("17-bubbles-a.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 18 — DYNAMIC FLOWING LINES (Variant A) — Vertical
+# ═══════════════════════════════════════════════════════════════
+def w18():
+    css = f"""
+    body {{ background: linear-gradient(180deg, {N}, #11101a); }}
+    .g {{ position:absolute; width:500px; height:500px; border-radius:50%; filter:blur(80px); opacity:0.12; }}
+    """
+    body = f"""
+    <div class='g' style='top:300px;left:-100px;background:{T}'></div>
+    <div class='g' style='top:200px;right:-100px;background:{P}'></div>
+    """
+    for i in range(50):
+        x = 80 + i * 36
+        h = 400 + 300 * math.sin(i * 0.2)
+        y = 200 + 100 * math.sin(i * 0.5)
+        c = [T, PU, P][i % 3]
+        body += f"<div style='position:absolute;left:{x}px;top:{y}px;width:1px;height:{h}px;background:linear-gradient(180deg,{c}00,{c},{c}00);opacity:0.12'></div>"
+    body += text("vertical flow", 80, 80, 32, T, 100, "left", 5)
+    body += text("BRUSHSTROKE VARIANT", 80, 120, 10, S, 300, "left", 6)
+    render("18-flowing-lines-a.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 19 — BOKEH NIGHT LIGHTS (Variant A) — Center concentration
+# ═══════════════════════════════════════════════════════════════
+def w19():
+    css = f"""
+    body {{ background: linear-gradient(180deg, #0a0a14, {N}); }}
+    .b {{ position:absolute; border-radius:50%; filter:blur(12px); }}
+    .v {{ position:absolute;top:0;left:0;width:100%;height:100%;
+          background:radial-gradient(ellipse at 50% 50%, transparent 30%, #0a0a1488 100%); }}
+    """
+    body = "<div class='v'></div>"
+    for i in range(50):
+        cx = 960 + 400 * math.cos(i * 0.5)
+        cy = 540 + 300 * math.sin(i * 0.7)
+        r = 20 + 30 * math.sin(i * 1.3) + 20
+        c = [T, P, PU][i % 3]
+        o = 0.15 + 0.15 * math.sin(i * 0.9)
+        body += f"<div class='b' style='left:{cx-r}px;top:{cy-r}px;width:{r*2}px;height:{r*2}px;background:radial-gradient(circle,{c},transparent);opacity:{o}'></div>"
+    body += text("BOKEH · ボケ", 80, 80, 24, TX, 100, "left", 5)
+    body += text("VIGNETTE VARIANT", 80, 115, 10, S, 300, "left", 6)
+    render("19-bokeh-lights-a.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
+# 20 — GEOMETRIC MANDALA TECH (Variant A) — Corner placement
+# ═══════════════════════════════════════════════════════════════
+def w20():
+    css = f"""
+    body {{ background: radial-gradient(ellipse at 70% 50%, #12121e, {N}); }}
+    .r {{ position:absolute; border-radius:50%; }}
+    .sq {{ position:absolute; }}
+    """
+    body = ""
+    cx, cy = 1400, 300
+    for i in range(30):
+        r = 20 + i * 18
+        c = [PU, T, P][i % 3]
+        o = 0.15 - i * 0.005
+        w = 1 if i % 2 == 0 else 0.5
+        body += f"<div class='r' style='left:{cx-r}px;top:{cy-r}px;width:{r*2}px;height:{r*2}px;border:{w}px solid {c};opacity:{max(o,0.02)}'></div>"
+        body += f"<div class='sq' style='left:{cx-r}px;top:{cy-r}px;width:{r*2}px;height:{r*2}px;border:{w}px dashed {c};opacity:{max(o*0.5,0.01)};transform:rotate({i*12}deg);transform-origin:{cx}px {cy}px'></div>"
+    # secondary cluster bottom-left
+    cx2, cy2 = 400, 800
+    for i in range(20):
+        r = 15 + i * 14
+        c = [T, PU, P][i % 3]
+        o = 0.10 - i * 0.005
+        body += f"<div class='r' style='left:{cx2-r}px;top:{cy2-r}px;width:{r*2}px;height:{r*2}px;border:0.5px solid {c};opacity:{max(o,0.015)}'></div>"
+    body += text("TOKYO NIGHT", 80, 80, 16, TX, 100, "left", 6)
+    body += text("MANDALA VARIANT A", 80, 110, 10, S, 300, "left", 6)
+    render("20-mandala-tech-a.png", body, css)
+
+
+# ═══════════════════════════════════════════════════════════════
 def generate_all():
-    os.makedirs(OUT_DIR, exist_ok=True)
-    print(f"\n  Generando 10 wallpapers HTML+CSS en {OUT_DIR}/\n")
-    print(f"  Resolución: {W}x{H}\n")
-
-    w1_glass_orbs()
-    w2_mountains()
-    w3_neon_grid()
-    w4_concentric_rings()
-    w5_blobs()
-    w6_waves()
-    w7_dots()
-    w8_minimal_dawn()
-    w9_polygons()
-    w10_line_art()
-
-    print(f"\n  ¡Listo! 10 wallpapers generados.\n")
+    os.makedirs(OUT, exist_ok=True)
+    print(f"\n  TOKYO NIGHT + MATERIAL YOU — 20 WALLPAPERS\n")
+    print(f"  Resolución: {W}x{H}  |  Output: {OUT}/\n")
+    for i, fn in enumerate([
+        w01, w02, w03, w04, w05, w06, w07, w08, w09, w10,
+        w11, w12, w13, w14, w15, w16, w17, w18, w19, w20,
+    ], 1):
+        print(f"  [{i:02d}/20]", end="")
+        fn()
+    print(f"\n  ✓ 20 wallpapers generados\n")
 
 if __name__ == "__main__":
     generate_all()
