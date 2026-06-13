@@ -99,6 +99,7 @@ PKGS=(
   nm-connection-editor network-manager-applet
   blueman pavucontrol thunar-shares thunar-archive-plugin
   python-pillow
+  python-weasyprint poppler
 )
 
 AUR_PKGS=()
@@ -278,7 +279,7 @@ cp "$SCRIPTS_DIR/auto-wallpaper.sh" "$HOME/.local/bin/auto-wallpaper"
 chmod +x "$HOME/.local/bin/auto-wallpaper"
 cp "$SCRIPTS_DIR/download-wallpapers.sh" "$HOME/.local/bin/download-wallpapers"
 chmod +x "$HOME/.local/bin/download-wallpapers"
-cp "$SCRIPTS_DIR/generate-wallpapers.py" "$HOME/.local/bin/generate-wallpapers"
+cp "$SCRIPTS_DIR/generate-wallpapers-html.py" "$HOME/.local/bin/generate-wallpapers"
 chmod +x "$HOME/.local/bin/generate-wallpapers"
 cp "$SCRIPTS_DIR/wifi-conectar.sh" "$HOME/.local/bin/wifi-conectar"
 chmod +x "$HOME/.local/bin/wifi-conectar"
@@ -446,7 +447,7 @@ echo "  Uso: download-wallpapers.sh ~/Pictures/Wallpapers"
 
 # generate-wallpapers
 log "generate-wallpapers script instalado"
-echo "  Genera 10 wallpapers Tokyo Night únicos (1920x1080)"
+echo "  Genera 10 wallpapers Tokyo Night con HTML+CSS (1920x1080)"
 echo "  Uso: generate-wallpapers"
 
 # wifi-conectar
