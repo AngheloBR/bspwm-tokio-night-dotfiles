@@ -1,0 +1,33 @@
+# ============================================================
+# yazi config - Tokyo Night
+# ============================================================
+
+[manager]
+show_hidden = false
+show_symlink = true
+sort_dir_first = true
+linemode = "mtime"
+
+[preview]
+image_filter = "lanczos3"
+image_quality = 75
+max_width = 600
+max_height = 600
+u_elevation_priority = [
+  "image",
+  "video",
+  "audio",
+  "pdf",
+  "archive",
+]
+
+[opener]
+edit = [
+  { exec = "nvim %*", block = true },
+]
+open = [
+  { exec = "xdg-open %*", desktop = ["x11", "wayland"] },
+]
+pager = [
+  { exec = "bat -p %*", block = true },
+]

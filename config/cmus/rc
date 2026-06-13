@@ -1,0 +1,44 @@
+# ============================================================
+# cmus config - Tokyo Night
+# ============================================================
+
+# Colors Tokyo Night
+set color_cmdline_bg       = default
+set color_cmdline_fg       = c0caf5
+set color_error            = f7768e
+set color_info             = 7dcfff
+set color_info_bg          = default
+set color_info_fg          = 7dcfff
+set color_linenr           = 565f89
+set color_linenr_bg        = default
+set color_linenr_fg        = 565f89
+set color_msg              = 9ece6a
+set color_msg_bg           = default
+set color_msg_fg           = 9ece6a
+set color_playlist_bg      = default
+set color_playlist_fg      = c0caf5
+set color_playlist_selected_bg = 7aa2f7
+set color_playlist_selected_fg = 1a1b26
+set color_playlist_cur_bg  = 2f3549
+set color_playlist_cur_fg  = 7aa2f7
+set color_status_bg        = 1a1b26
+set color_status_fg        = 7aa2f7
+set color_title_bg         = 1a1b26
+set color_title_fg         = e0af68
+set color_win_bg           = default
+set color_win_fg           = c0caf5
+set color_win_cur_bg       = 2f3549
+set color_win_cur_fg       = 7aa2f7
+set color_win_sel_bg       = 7aa2f7
+set color_win_sel_fg       = 1a1b26
+
+# Opciones
+set softvol=true
+set vol_step=5
+set repeat=false
+set shuffle=false
+set continue=true
+set resume_status_line_format="%{state} %{artist} - %{title} [%{duration}]"
+set status_display=1
+set output_plugin=pipewire
+set audio_backend=pipewire

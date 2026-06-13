@@ -1,0 +1,135 @@
+# ============================================================
+# yazi theme - Tokyo Night
+# ============================================================
+
+[manager]
+preview = []
+syntect_theme = ""
+
+[manager.preview]
+bg = "#1a1b26"
+fg = "#c0caf5"
+
+[manager.cwd]
+fg = "#7aa2f7"
+bg = "#1a1b26"
+
+[manager.hovered]
+fg = "#c0caf5"
+bg = "#2f3549"
+
+[manager.preview_hovered]
+underline = true
+
+[manager.selected]
+fg = "#1a1b26"
+bg = "#7dcfff"
+
+[manager.spotlight]
+fg = "#1a1b26"
+bg = "#e0af68"
+
+[manager.tab_active]
+fg = "#7aa2f7"
+bg = "#1a1b26"
+
+[manager.tab_inactive]
+fg = "#565f89"
+bg = "#1a1b26"
+
+[manager.border]
+fg = "#2f3549"
+
+[manager.count_copied]
+fg = "#9ece6a"
+bg = "#1a1b26"
+
+[manager.count_selected]
+fg = "#7dcfff"
+bg = "#1a1b26"
+
+[status]
+fg = "#c0caf5"
+bg = "#1a1b26"
+
+[status.separator_open]
+fg = "#7aa2f7"
+open = ""
+close = ""
+
+[status.separator_close]
+fg = "#7aa2f7"
+open = ""
+close = ""
+
+[status.perm]
+fg = "#565f89"
+
+[status.owner]
+fg = "#bb9af7"
+
+[status.group]
+fg = "#bb9af7"
+
+[status.url]
+fg = "#7dcfff"
+
+[mode.normal]
+fg = "#1a1b26"
+bg = "#7aa2f7"
+
+[mode.select]
+fg = "#1a1b26"
+bg = "#7dcfff"
+
+[mode.unset]
+fg = "#1a1b26"
+bg = "#565f89"
+
+[which.sort]
+fg = "#1a1b26"
+bg = "#e0af68"
+
+[which.name]
+fg = "#c0caf5"
+bg = "#2f3549"
+
+[which.desc]
+fg = "#a9b1d6"
+bg = "#2f3549"
+
+[input]
+bg = "#1a1b26"
+fg = "#c0caf5"
+
+[input.border]
+fg = "#7aa2f7"
+
+[select]
+bg = "#1a1b26"
+fg = "#c0caf5"
+
+[select.border]
+fg = "#7aa2f7"
+
+[help]
+bg = "#1a1b26"
+fg = "#c0caf5"
+on = "#1a1b26"
+run = "#f7768e"
+desc = "#a9b1d6"
+hover = "#1a1b26"
+footer = "#565f89"
+
+[help.border]
+fg = "#7aa2f7"
+
+[confirm]
+bg = "#1a1b26"
+fg = "#c0caf5"
+
+[confirm.border]
+fg = "#e0af68"
+
+[confirm.undo]
+fg = "#9ece6a"

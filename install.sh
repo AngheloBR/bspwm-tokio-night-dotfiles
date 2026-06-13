@@ -227,7 +227,6 @@ CONFIG_MAP=(
   "rofi:rofi"
   "ghostty:ghostty"
   "gtk-3.0:gtk-3.0"
-  "Thunar:Thunar"
   "fastfetch:fastfetch"
   "betterlockscreen:betterlockscreen"
   "btop:btop"
@@ -239,6 +238,10 @@ CONFIG_MAP=(
   "cava:cava"
   "ranger:ranger"
   "Thunar:Thunar"
+  "lazygit:lazygit"
+  "cmus:cmus"
+  "mpv:mpv"
+  "yazi:yazi"
 )
 
 for entry in "${CONFIG_MAP[@]}"; do
@@ -362,6 +365,33 @@ if command -v thunar &>/dev/null; then
   echo "  Acciones personalizadas (uca.xml): abrir terminal, copiar ruta, extraer, wallpaper"
 fi
 
+# lazygit
+if command -v lazygit &>/dev/null; then
+  log "lazygit Tokyo Night configurado"
+  echo "  lazygit: TUI para git con colores Tokyo Night"
+  echo "  Atajos: <espacio> stage, c commit, P push, p pull, ? ayuda"
+fi
+
+# cmus
+if command -v cmus &>/dev/null; then
+  log "cmus Tokyo Night configurado"
+  echo "  cmus: reproductor de música en terminal"
+  echo "  Atajos: 5 lista, 2 navegar, x play, v pausa, b next, z prev"
+fi
+
+# mpv
+if command -v mpv &>/dev/null; then
+  log "mpv Tokyo Night configurado"
+  echo "  mpv: reproductor de video con OSD Tokyo Night"
+fi
+
+# yazi
+if command -v yazi &>/dev/null; then
+  log "yazi Tokyo Night configurado"
+  echo "  yazi: file manager en Rust (alternativa a ranger)"
+  echo "  Más rápido que ranger, preview nativo de imágenes/video/PDF"
+fi
+
 # Firefox
 log "Firefox userChrome.css Tokyo Night (macOS style) instalado"
 echo "  Para activar:"
@@ -431,8 +461,9 @@ echo -e "  ${CYAN}✓${NC} dunst              ${CYAN}✓${NC} rofi           ${C
 echo -e "  ${CYAN}✓${NC} fastfetch          ${CYAN}✓${NC} btop           ${CYAN}✓${NC} lockscreen"
 echo -e "  ${CYAN}✓${NC} GTK/Kvantum        ${CYAN}✓${NC} nvim           ${CYAN}✓${NC} zsh/p10k"
 echo -e "  ${CYAN}✓${NC} Firefox macOS      ${CYAN}✓${NC} LightDM macOS  ${CYAN}✓${NC} cava"
-  echo -e "  ${CYAN}✓${NC} ranger             ${CYAN}✓${NC} auto-wallpaper ${CYAN}✓${NC} pywal+pywalfox"
-  echo -e "  ${CYAN}✓${NC} Thunar"
+echo -e "  ${CYAN}✓${NC} ranger             ${CYAN}✓${NC} auto-wallpaper ${CYAN}✓${NC} pywal+pywalfox"
+echo -e "  ${CYAN}✓${NC} Thunar             ${CYAN}✓${NC} lazygit        ${CYAN}✓${NC} cmus"
+echo -e "  ${CYAN}✓${NC} mpv                ${CYAN}✓${NC} yazi"
 echo ""
 echo -e "${YELLOW}  Pasos siguientes:${NC}"
 echo ""
@@ -456,7 +487,13 @@ echo -e "  7. ${CYAN}Auto-wallpaper:${NC}  ${PURPLE}auto-wallpaper ~/Pictures/Wa
 echo ""
 echo -e "  8. ${CYAN}Pantalla de bloqueo:${NC}  ${PURPLE}Super + Escape${NC}"
 echo ""
-echo -e "  9. ${CYAN}Atajos clave:${NC}"
+echo -e "  9. ${CYAN}lazygit:${NC}  ${PURPLE}lazygit${NC} (TUI para git, navega con teclas)"
+echo ""
+echo -e "  10. ${CYAN}cmus:${NC}  ${PURPLE}cmus${NC} (reproductor música terminal, 5=lista, x=play)"
+echo ""
+echo -e "  11. ${CYAN}yazi:${NC}  ${PURPLE}yazi${NC} (file manager rápido, como ranger pero Rust)"
+echo ""
+echo -e "  12. ${CYAN}Atajos clave:${NC}"
 echo -e "     ${PURPLE}Super + D${NC}       → Rofi (lanzador)"
 echo -e "     ${PURPLE}Super + Enter${NC}    → Ghostty (terminal)"
 echo -e "     ${PURPLE}Super + W${NC}        → Rofi (ventanas)"

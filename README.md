@@ -40,6 +40,10 @@ Configuración completa de **bspwm** con tema **Tokyo Night**, animaciones suave
 | **wallpapers** | `scripts/download-wallpapers.sh` | Descarga wallpapers oficiales Tokyo Night |
 | **auto-wallpaper** | `scripts/auto-wallpaper.sh` | Cambio automático de wallpaper cada N min |
 | **Thunar** | `config/Thunar/uca.xml` + `config/gtk-3.0/gtk.css` | File manager GUI con Tokyo Night |
+| **lazygit** | `config/lazygit/config.yml` | TUI para git con Tokyo Night |
+| **cmus** | `config/cmus/rc` | Reproductor música terminal Tokyo Night |
+| **mpv** | `config/mpv/mpv.conf` | Reproductor video con OSD Tokyo Night |
+| **yazi** | `config/yazi/{theme.toml, yazi.toml}` | File manager Rust (rápido) Tokyo Night |
 
 ---
 
@@ -63,13 +67,17 @@ Configuración completa de **bspwm** con tema **Tokyo Night**, animaciones suave
 │  ├── rofi        → App launcher                       │
 │  ├── firefox     → Browser (macOS style)              │
 │  ├── thunar      → File manager GUI (GTK)             │
-│  ├── ranger      → File manager TUI                   │
+│  ├── ranger      → File manager TUI (Python)           │
+│  ├── yazi        → File manager TUI (Rust, rápido)     │
 │  ├── nvim        → Editor (LazyVim + Tokyo Night)     │
 │  ├── cava        → Audio visualizer                   │
 │  ├── fastfetch   → System info                        │
 │  ├── btop        → System monitor                     │
 │  ├── flameshot   → Screenshots                        │
-│  └── dunst       → Notifications                      │
+│  ├── dunst       → Notifications                      │
+│  ├── lazygit     → TUI git                             │
+│  ├── cmus        → Música terminal                     │
+│  └── mpv         → Video player                        │
 │                                                      │
 │  🎨 THEMING                                          │
 │  ├── pywal       → Dynamic colors (Material You)      │
@@ -321,6 +329,79 @@ No requiere activación extra — solo tener `Tokyonight-Dark-BL` en GTK.
 
 ---
 
+## ⎇ lazygit (TUI para git)
+
+Interfaz terminal para git. En vez de comandos, ves archivos modificados y operás con teclas.
+
+```bash
+lazygit
+```
+
+Atajos:
+- `<espacio>` → stage/unstage archivos
+- `c` → commit
+- `P` → push
+- `p` → pull
+- `?` → ayuda
+
+---
+
+## 🎧 cmus (reproductor música terminal)
+
+Para escuchar música directamente en la terminal con colores Tokyo Night.
+
+```bash
+cmus
+```
+
+Atajos:
+- `5` → lista de reproducción
+- `2` → navegar directorios
+- `x` → play
+- `v` → pausa/reanudar
+- `b` → siguiente
+- `z` → anterior
+- `q` → salir
+
+---
+
+## 🎬 mpv (reproductor video)
+
+Reproductor de video con OSD y subtítulos en colores Tokyo Night.
+
+```bash
+mpv video.mp4
+```
+
+Config incluida: OSD azul `#7aa2f7`, subtítulos con borde sutil, JetBrainsMono Nerd Font, preajuste GPU.
+
+---
+
+## 📂 yazi (file manager en Rust)
+
+Alternativa a ranger pero en Rust — más rápido, preview nativo de imágenes, videos, PDFs, audios.
+
+```bash
+yazi
+```
+
+Atajos:
+- `hjkl` → navegar
+- `~` → mostrar/ocultar ocultos
+- `o` → abrir archivo
+- `e` → editar con nvim
+- `y` → copiar ruta
+- `q` → salir
+
+---
+
+## 💡 Notas extra
+
+- **Obsidian**: Tema Tokyo Night disponible en Ajustes → Apariencia → Temas comunitarios
+- **Echo Music**: Reproductor Flutter/Dart. Si tiene tema personalizable, se puede adaptar con los colores de `themes/colors-tokyo-night.sh`
+
+---
+
 ## 🔐 LightDM macOS Tokyo Night
 
 Pantalla de login estilo macOS con:
@@ -429,7 +510,11 @@ bspwm-tokio-night-dotfiles/
 │   ├── lightdm/{lightdm-gtk-greeter.conf, lightdm-webkit2-greeter.conf, webkit-theme/}
 │   ├── cava/config
 │   ├── ranger/{rc.conf, scope.sh, colorschemes/tokyo-night.py}
-│   └── Thunar/uca.xml
+│   ├── Thunar/uca.xml
+│   ├── lazygit/config.yml
+│   ├── cmus/rc
+│   ├── mpv/mpv.conf
+│   └── yazi/{theme.toml, yazi.toml}
 ├── themes/
 │   └── colors-tokyo-night.sh
 ├── scripts/
