@@ -18,4 +18,4 @@ f = fullscreen
 r = reload
 <Left> = prev
 <Right> = next
-<C-c> = exec echo %f | xclip -selection clipboard
+<C-c> = exec cat %f | wl-copy 2>/dev/null || xclip -selection clipboard %f 2>/dev/null || echo "Clipboard no disponible"

@@ -5,8 +5,7 @@
 # ============================================================
 
 # --- Cargar colores Tokyo Night ---
-source "${BSPWM_CONFIG_DIR:-$HOME/.config/bspwm}/colors.sh" 2>/dev/null || \
-  source "$HOME/.config/themes/colors-tokyo-night.sh" 2>/dev/null
+source "$HOME/.config/themes/colors-tokyo-night.sh" 2>/dev/null
 
 # --- Configuración de bordes ---
 bspc config border_width          2

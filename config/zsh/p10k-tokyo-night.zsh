@@ -6,15 +6,15 @@
 # ============================================================
 
 # Colors
-_P9K_TOKYO_BG="#1a1b26"
-_P9K_TOKYO_SURFACE="#24283b"
-_P9K_TOKYO_FG="#c0caf5"
-_P9K_TOKYO_BLUE="#7aa2f7"
-_P9K_TOKYO_PURPLE="#bb9af7"
-_P9K_TOKYO_GREEN="#9ece6a"
-_P9K_TOKYO_RED="#f7768e"
-_P9K_TOKYO_YELLOW="#e0af68"
-_P9K_TOKYO_CYAN="#7dcfff"
+P9K_TOKYO_BG="#1a1b26"
+P9K_TOKYO_SURFACE="#24283b"
+P9K_TOKYO_FG="#c0caf5"
+P9K_TOKYO_BLUE="#7aa2f7"
+P9K_TOKYO_PURPLE="#bb9af7"
+P9K_TOKYO_GREEN="#9ece6a"
+P9K_TOKYO_RED="#f7768e"
+P9K_TOKYO_YELLOW="#e0af68"
+P9K_TOKYO_CYAN="#7dcfff"
 
 # Prompt
 POWERLEVEL9K_MODE=nerdfont-complete

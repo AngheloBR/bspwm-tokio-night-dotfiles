@@ -112,16 +112,9 @@ snapshot() {
 }
 
 # ════════════════════════════════════════════════════════════
-# 🎵 MULTIMEDIA
-# ════════════════════════════════════════════════════════════
-
-alias musica="~/.local/bin/musica.sh"
-
-# ════════════════════════════════════════════════════════════
 # ⏰ UTILIDADES
 # ════════════════════════════════════════════════════════════
 
-alias awake="~/.local/bin/awake.sh"
 alias androidstudio='~/android-studio/bin/studio.sh'
 alias gemini='python ~/.local/src/asistente_voz/main.py'
 alias opencode="opencode --model ollama/qwen3:8b"

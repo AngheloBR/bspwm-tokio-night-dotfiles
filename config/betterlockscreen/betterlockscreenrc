@@ -25,7 +25,7 @@ lockpowerwrong=#f7768e
 locklayout=default
 locktimeformat=%H:%M
 lockdateformat=%A, %d %B %Y
-lockscreentext=Tus archivos están cifrados con Tokyo Night
+lockscreentext=Bienvenido a Tokyo Night
 
 lockindicator=yes
 lockclockposition=0,-100

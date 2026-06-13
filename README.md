@@ -594,43 +594,63 @@ bspwm-tokio-night-dotfiles/
 ├── install.sh
 ├── README.md
 ├── config/
+│   ├── betterlockscreen/betterlockscreenrc
 │   ├── bspwm/bspwmrc
-│   ├── sxhkd/sxhkdrc
-│   ├── polybar/{config.ini, launch.sh}
-│   ├── picom/picom.conf
+│   ├── btop/{btop.conf, themes/tokyo-night.theme}
+│   ├── cava/config
+│   ├── cliphist/config.toml
+│   ├── cmus/rc
 │   ├── dunst/dunstrc
-│   ├── rofi/config.rasi
+│   ├── fastfetch/config.jsonc
+│   ├── firefox/{userChrome.css, userChrome-tokyo-night.css, user.js}
 │   ├── ghostty/config
 │   ├── gtk-3.0/{settings.ini, gtk.css}
-│   ├── fastfetch/config.jsonc
-│   ├── betterlockscreen/betterlockscreenrc
-│   ├── btop/{btop.conf, themes/tokyo-night.theme}
+│   ├── imv/config
 │   ├── kvantum/kvantum.kvconfig
-│   ├── nvim/lua/config/colorscheme.lua
-│   ├── zsh/{p10k-tokyo-night.zsh, aliases.zsh}
-│   ├── firefox/{userChrome.css, userChrome-tokyo-night.css, user.js}
-│   ├── lightdm/{lightdm-gtk-greeter.conf, lightdm-webkit2-greeter.conf, webkit-theme/}
-│   ├── cava/config
-│   ├── ranger/{rc.conf, scope.sh, colorschemes/tokyo-night.py}
-│   ├── Thunar/uca.xml
 │   ├── lazygit/config.yml
-│   ├── cmus/rc
+│   ├── lightdm/{lightdm-gtk-greeter.conf, lightdm-webkit2-greeter.conf, webkit-theme/}
 │   ├── mpv/mpv.conf
+│   ├── nvim/lua/config/colorscheme.lua
+│   ├── picom/picom.conf
+│   ├── polybar/{config.ini, launch.sh}
+│   ├── ranger/{rc.conf, scope.sh, colorschemes/tokyo-night.py}
+│   ├── rofi/config.rasi
+│   ├── sxhkd/sxhkdrc
+│   ├── Thunar/uca.xml
 │   ├── yazi/{theme.toml, yazi.toml}
 │   ├── zathura/zathurarc
-│   ├── imv/config
-│   └── cliphist/config.toml
+│   └── zsh/{aliases.zsh, p10k-tokyo-night.zsh}
 ├── themes/
 │   └── colors-tokyo-night.sh
 ├── scripts/
-│   ├── change-wallpaper.sh
-│   ├── setup-pywalfox.sh
-│   ├── install-picom-animations.sh
 │   ├── auto-wallpaper.sh
+│   ├── change-wallpaper.sh
 │   ├── download-wallpapers.sh
-│   ├── generate-wallpapers.py
+│   ├── generate-wallpapers-html.py
+│   ├── install-picom-animations.sh
+│   ├── setup-pywalfox.sh
 │   └── wifi-conectar.sh
 └── wallpapers/
+    ├── 01-minimal-geometric.png
+    ├── 02-glassmorphism.png
+    ├── 03-night-landscape.png
+    ├── 04-developer-code.png
+    ├── 05-fluid-gradient.png
+    ├── 06-retro-grid.png
+    ├── 07-bubbles.png
+    ├── 08-flowing-lines.png
+    ├── 09-bokeh-lights.png
+    ├── 10-mandala-tech.png
+    ├── 11-minimal-geometric-a.png
+    ├── 12-glassmorphism-a.png
+    ├── 13-night-landscape-a.png
+    ├── 14-developer-code-a.png
+    ├── 15-fluid-gradient-a.png
+    ├── 16-retro-grid-a.png
+    ├── 17-bubbles-a.png
+    ├── 18-flowing-lines-a.png
+    ├── 19-bokeh-lights-a.png
+    └── 20-mandala-tech-a.png
 ```
 
 ---

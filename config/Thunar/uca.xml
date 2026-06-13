@@ -30,7 +30,7 @@
     <name>Copiar ruta</name>
     <submenu></submenu>
     <unique-id>1712345678-3</unique-id>
-    <command>echo %f | xclip -selection clipboard</command>
+    <command>cat %f | wl-copy 2>/dev/null || xclip -selection clipboard %f 2>/dev/null || echo "Clipboard no disponible"</command>
     <description>Copia la ruta completa del archivo</description>
     <patterns>*</patterns>
     <startup-notify/>

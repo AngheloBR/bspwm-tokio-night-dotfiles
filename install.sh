@@ -94,15 +94,19 @@ PKGS=(
   # Temas
   papirus-icon-theme kvantum
   # Utilidades
-  btop flameshot betterlockscreen neovim cava ranger thunar wget
-  zathura zathura-pdf-poppler imv cliphist wl-clipboard
+  btop flameshot neovim cava ranger thunar wget bat
+  zathura zathura-pdf-poppler imv wl-clipboard xclip
   nm-connection-editor network-manager-applet
   blueman pavucontrol thunar-shares thunar-archive-plugin
   python-pillow
   python-weasyprint poppler
+  ttf-material-design-icons
 )
 
-AUR_PKGS=()
+AUR_PKGS=(
+  betterlockscreen
+  cliphist
+)
 AUR_HELPER=""
 
 # Detectar AUR helper
@@ -193,8 +197,8 @@ BACKUP_DIRS=(
 
 for dir in "${BACKUP_DIRS[@]}"; do
   if [ -d "$dir" ] || [ -f "$dir" ]; then
-    mkdir -p "$BACKUP_DIR/$dir"
-    cp -r "$dir" "$BACKUP_DIR/$dir" 2>/dev/null || true
+    mkdir -p "$BACKUP_DIR"
+    cp -r "$dir" "$BACKUP_DIR/" 2>/dev/null || true
     warn "Respaldado: $dir → $BACKUP_DIR"
   fi
 done
@@ -238,7 +242,6 @@ CONFIG_MAP=(
   "kvantum:Kvantum"
   "nvim:nvim"
   "zsh:zsh"
-  "firefox:firefox"
   "lightdm:lightdm"
   "cava:cava"
   "ranger:ranger"
@@ -332,7 +335,6 @@ fi
 BTOP_THEME_SRC="$HOME/.config/btop/themes/tokyo-night.theme"
 BTOP_THEME_DIR="$HOME/.config/btop/themes"
 if [ -f "$BTOP_THEME_SRC" ]; then
-  mkdir -p "$BTOP_THEME_DIR"
   log "btop Tokyo Night theme instalado"
 fi
 
@@ -424,18 +426,34 @@ if command -v cliphist &>/dev/null; then
 fi
 
 # Firefox
-log "Firefox userChrome.css Tokyo Night (macOS style) instalado"
-echo "  Para activar:"
-echo "  1. about:config → toolkit.legacyUserProfileCustomizations.stylesheets = true"
-echo "  2. Copiar config/firefox/userChrome.css a ~/.mozilla/firefox/*.default-release/chrome/"
+FIREFOX_PROFILE=""
+for profile_dir in "$HOME"/.mozilla/firefox/*.default* "$HOME"/.mozilla/firefox/*.default-release*; do
+  if [ -d "$profile_dir" ]; then
+    FIREFOX_PROFILE="$profile_dir"
+    break
+  fi
+done
+
+if [ -n "$FIREFOX_PROFILE" ]; then
+  mkdir -p "$FIREFOX_PROFILE/chrome"
+  cp "$CONFIG_DIR/firefox/userChrome.css" "$FIREFOX_PROFILE/chrome/"
+  cp "$CONFIG_DIR/firefox/userChrome-tokyo-night.css" "$FIREFOX_PROFILE/chrome/"
+  cp "$CONFIG_DIR/firefox/user.js" "$FIREFOX_PROFILE/"
+  log "Firefox Tokyo Night instalado en $FIREFOX_PROFILE"
+  echo "  Para activar: about:config → toolkit.legacyUserProfileCustomizations.stylesheets = true"
+else
+  log "Firefox userChome.css copiado a ~/.config/firefox/ (sin perfil detectado)"
+  echo "  Copia manual:"
+  echo "    cp config/firefox/userChrome.css ~/.mozilla/firefox/*.default-release/chrome/"
+  echo "    Luego about:config → toolkit.legacyUserProfileCustomizations.stylesheets = true"
+fi
 
 # LightDM
-log "LightDM theme Tokyo Night (macOS style) instalado"
-echo "  Para activar lightdm-gtk-greeter:"
-echo "    sudo cp config/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/"
-echo "  Para activar lightdm-webkit2-greeter:"
-echo "    sudo cp -r config/lightdm/webkit-theme /usr/share/lightdm-webkit/themes/tokyo-night-macos"
-echo "    y configurar /etc/lightdm/lightdm-webkit2-greeter.conf"
+log "LightDM theme Tokyo Night (macOS style)"
+echo "  Ejecuta estos comandos como root:"
+echo "    sudo cp $DOTFILES_DIR/config/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/"
+echo "    sudo mkdir -p /usr/share/lightdm-webkit/themes/tokyo-night-macos"
+echo "    sudo cp -r $DOTFILES_DIR/config/lightdm/webkit-theme/* /usr/share/lightdm-webkit/themes/tokyo-night-macos/"
 
 # auto-wallpaper
 log "auto-wallpaper script instalado"

@@ -54,7 +54,7 @@
 
     sticky_history = yes
     history_length = 20
-    dmenu = /usr/bin/rofi -dmenu -config ~/.config/rofi/config.rasi -p dunst
+    dmenu = /usr/bin/rofi -dmenu -config $HOME/.config/rofi/config.rasi -p dunst
     browser = /usr/bin/firefox
     mouse_left_click = close_current
     mouse_middle_click = do_action

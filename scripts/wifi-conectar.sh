@@ -35,12 +35,20 @@ case "${1:-}" in
     exit 0
     ;;
   *)
-    if [[ $# -ge 1 ]]; then
+    if [[ $# -ge 2 ]]; then
       nmcli device wifi connect "$1" password "$2" && \
         echo -e "  ${T_GREEN}󰄬 Conectado a ${T_CYAN}$1${RESET}" && \
-        notify "Conectado a $1" || \
-        echo -e "  ${T_RED}󰑮 Error conectando a ${T_CYAN}$1${RESET}"
+        notify "Conectado a $1"
       exit $?
+    elif [[ $# -eq 1 ]]; then
+      if nmcli -t -f SSID connection show | grep -qx "$1"; then
+        nmcli connection up "$1" && \
+          echo -e "  ${T_GREEN}󰄬 Conectado a ${T_CYAN}$1${RESET}" && \
+          notify "Conectado a $1"
+        exit $?
+      fi
+      echo -e "  ${T_ORANGE}La red $1 requiere contraseña. Usa: wifi-conectar \"$1\" \"contraseña\"${RESET}"
+      exit 1
     fi
     ;;
 esac
