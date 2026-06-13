@@ -98,6 +98,7 @@ PKGS=(
   zathura zathura-pdf-poppler imv cliphist wl-clipboard
   nm-connection-editor network-manager-applet
   blueman pavucontrol thunar-shares thunar-archive-plugin
+  python-pillow
 )
 
 AUR_PKGS=()
@@ -277,6 +278,8 @@ cp "$SCRIPTS_DIR/auto-wallpaper.sh" "$HOME/.local/bin/auto-wallpaper"
 chmod +x "$HOME/.local/bin/auto-wallpaper"
 cp "$SCRIPTS_DIR/download-wallpapers.sh" "$HOME/.local/bin/download-wallpapers"
 chmod +x "$HOME/.local/bin/download-wallpapers"
+cp "$SCRIPTS_DIR/generate-wallpapers.py" "$HOME/.local/bin/generate-wallpapers"
+chmod +x "$HOME/.local/bin/generate-wallpapers"
 log "Scripts instalados en ~/.local/bin/"
 
 # ============================================================
@@ -439,6 +442,11 @@ echo "  Uso: auto-wallpaper.sh ~/Pictures/Wallpapers 30"
 log "download-wallpapers script instalado"
 echo "  Uso: download-wallpapers.sh ~/Pictures/Wallpapers"
 
+# generate-wallpapers
+log "generate-wallpapers script instalado"
+echo "  Genera 10 wallpapers Tokyo Night únicos (1920x1080)"
+echo "  Uso: generate-wallpapers (genera en ~/.local/share/wallpapers/ o donde estés)"
+
 # Neovim hint
 if command -v nvim &>/dev/null; then
   log "Neovim: se copió hint de colorscheme Tokyo Night"
@@ -510,17 +518,19 @@ echo -e "     ${PURPLE}sudo cp config/lightdm/lightdm-gtk-greeter.conf /etc/ligh
 echo ""
 echo -e "  6. ${CYAN}Descargar wallpapers:${NC}  ${PURPLE}download-wallpapers${NC}"
 echo ""
-echo -e "  7. ${CYAN}Auto-wallpaper:${NC}  ${PURPLE}auto-wallpaper ~/Pictures/Wallpapers 15${NC}"
+echo -e "  7. ${CYAN}Generar wallpapers únicos:${NC}  ${PURPLE}generate-wallpapers${NC}"
 echo ""
-echo -e "  8. ${CYAN}Pantalla de bloqueo:${NC}  ${PURPLE}Super + Escape${NC}"
+echo -e "  8. ${CYAN}Auto-wallpaper:${NC}  ${PURPLE}auto-wallpaper ~/Pictures/Wallpapers 15${NC}"
 echo ""
-echo -e "  9. ${CYAN}lazygit:${NC}  ${PURPLE}lazygit${NC} (TUI para git, navega con teclas)"
+echo -e "  9. ${CYAN}Pantalla de bloqueo:${NC}  ${PURPLE}Super + Escape${NC}"
 echo ""
-echo -e "  10. ${CYAN}cmus:${NC}  ${PURPLE}cmus${NC} (reproductor música terminal, 5=lista, x=play)"
+echo -e "  10. ${CYAN}lazygit:${NC}  ${PURPLE}lazygit${NC} (TUI para git, navega con teclas)"
 echo ""
-echo -e "  11. ${CYAN}yazi:${NC}  ${PURPLE}yazi${NC} (file manager rápido, como ranger pero Rust)"
+echo -e "  11. ${CYAN}cmus:${NC}  ${PURPLE}cmus${NC} (reproductor música terminal, 5=lista, x=play)"
 echo ""
-echo -e "  12. ${CYAN}Atajos clave:${NC}"
+echo -e "  12. ${CYAN}yazi:${NC}  ${PURPLE}yazi${NC} (file manager rápido, como ranger pero Rust)"
+echo ""
+echo -e "  13. ${CYAN}Atajos clave:${NC}"
 echo -e "     ${PURPLE}Super + D${NC}       → Rofi (lanzador)"
 echo -e "     ${PURPLE}Super + Enter${NC}    → Ghostty (terminal)"
 echo -e "     ${PURPLE}Super + W${NC}        → Rofi (ventanas)"
