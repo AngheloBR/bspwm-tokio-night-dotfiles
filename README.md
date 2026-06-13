@@ -47,6 +47,8 @@ Configuración completa de **bspwm** con tema **Tokyo Night**, animaciones suave
 | **zathura** | `config/zathura/zathurarc` | Visor PDF minimal Tokyo Night |
 | **imv** | `config/imv/config` | Visor imágenes Tokyo Night |
 | **cliphist** | `config/cliphist/config.toml` | Clipboard manager + sxhkd binding |
+| **wifi** | `scripts/wifi-conectar.sh` + `config/zsh/aliases.zsh` | Selector WiFi con rofi + Tokyo Night |
+| **aliases** | `config/zsh/aliases.zsh` | Aliases ZSH mejorados y organizados |
 
 ---
 
@@ -456,6 +458,45 @@ Se inician automáticamente al iniciar bspwm.
 
 ---
 
+## 🛜 WiFi interactivo con rofi
+
+Selector de redes WiFi con interfaz gráfica rofi y colores Tokyo Night.
+
+```bash
+# Modo interactivo (seleccionás red con rofi)
+wifi-conectar
+
+# Modo directo
+wifi-conectar "MiRed" "MiClave"
+
+# Listar redes
+wifi-conectar -l
+```
+
+También incluido como alias/función `wifi()` en `config/zsh/aliases.zsh`.
+
+---
+
+## 🔧 Aliases ZSH
+
+Todos los alias mejorados y organizados en `config/zsh/aliases.zsh`:
+
+| Categoría | Alias/Función | Qué hace |
+|---|---|---|
+| 🌐 Redes | `redes` | Listar WiFi con nmcli |
+| | `wifi-conectar` | Conectar WiFi (directo) |
+| | `wifi` | Selector WiFi con rofi |
+| 📦 Sistema | `cat` | bat (syntax highlight) |
+| | `update-programs` | Guarda lista de paquetes |
+| 🔌 Servidores | `vps` | SSH a VPS Oracle |
+| | `server-minecraft` | SSH server Minecraft |
+| ⚡ Energía | `modo-ahorro/normal/juego` | Perfiles de energía |
+| 🖥️ KVM | `kvm-on/off`, `maquinas-virtuales` | Virtualización |
+| | `snapshot` | Gestión de snapshots |
+| ⏰ Utilidades | `awake`, `gemini`, `opencode`, `jarvis` | Varias |
+
+---
+
 ## 💡 Notas extra
 
 - **Obsidian**: Tema Tokyo Night disponible en Ajustes → Apariencia → Temas comunitarios
@@ -566,7 +607,7 @@ bspwm-tokio-night-dotfiles/
 │   ├── btop/{btop.conf, themes/tokyo-night.theme}
 │   ├── kvantum/kvantum.kvconfig
 │   ├── nvim/lua/config/colorscheme.lua
-│   ├── zsh/p10k-tokyo-night.zsh
+│   ├── zsh/{p10k-tokyo-night.zsh, aliases.zsh}
 │   ├── firefox/{userChrome.css, userChrome-tokyo-night.css, user.js}
 │   ├── lightdm/{lightdm-gtk-greeter.conf, lightdm-webkit2-greeter.conf, webkit-theme/}
 │   ├── cava/config
@@ -586,7 +627,9 @@ bspwm-tokio-night-dotfiles/
 │   ├── setup-pywalfox.sh
 │   ├── install-picom-animations.sh
 │   ├── auto-wallpaper.sh
-│   └── download-wallpapers.sh
+│   ├── download-wallpapers.sh
+│   ├── generate-wallpapers.py
+│   └── wifi-conectar.sh
 └── wallpapers/
 ```
 
