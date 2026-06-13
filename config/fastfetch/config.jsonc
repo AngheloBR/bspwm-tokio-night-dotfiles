@@ -67,7 +67,7 @@
       "type": "title",
       "key": "  ",
       "keyColor": "cyan",
-      "format": "anghelo"
+      "format": "${USER}"
     },
     {
       "type": "host",

@@ -35,9 +35,16 @@ wifi-conectar() {
     echo -e "  ${T_BLUE}╰─${RESET} ${T_GRAY}O solo escribe ${T_FG}wifi-conectar${T_GRAY} sin args para el selector rofi${RESET}"
     return 1
   fi
-  nmcli device wifi connect "$1" password "$2" && \
-    echo -e "  ${T_GREEN}󰄬 Conectado a ${T_CYAN}$1${RESET}" || \
+  if [ -z "$2" ]; then
+    echo -e "  ${T_ORANGE}Error: Contraseña requerida${RESET}"
+    return 1
+  fi
+
+  if nmcli device wifi connect "$1" password "$2"; then
+    echo -e "  ${T_GREEN}󰄬 Conectado a ${T_CYAN}$1${RESET}"
+  else
     echo -e "  ${T_RED}󰑮 Error al conectar a ${T_CYAN}$1${RESET}"
+  fi
 }
 
 # Selector WiFi interactivo con rofi
@@ -53,8 +60,11 @@ wifi() {
   [[ -z "$selected" ]] && return
 
   if nmcli -t -f NAME connection show | grep -qx "$selected"; then
-    nmcli connection up "$selected" && \
+    if nmcli connection up "$selected"; then
       echo -e "  ${T_GREEN}󰄬 Conectado a ${T_CYAN}$selected${RESET}"
+    else
+      echo -e "  ${T_RED}󰑮 Error reconectando a ${T_CYAN}$selected${RESET}"
+    fi
     return
   fi
 
@@ -62,9 +72,11 @@ wifi() {
   password="$(rofi -dmenu -password -p "󰛐 Clave" -theme ~/.config/rofi/config.rasi 2>/dev/null)"
   [[ -z "$password" ]] && return
 
-  nmcli device wifi connect "$selected" password "$password" && \
-    echo -e "  ${T_GREEN}󰄬 Conectado a ${T_CYAN}$selected${RESET}" || \
+  if nmcli device wifi connect "$selected" password "$password"; then
+    echo -e "  ${T_GREEN}󰄬 Conectado a ${T_CYAN}$selected${RESET}"
+  else
     echo -e "  ${T_RED}󰑮 Error conectando a ${T_CYAN}$selected${RESET}"
+  fi
 }
 
 # ════════════════════════════════════════════════════════════
@@ -74,16 +86,18 @@ wifi() {
 alias cat="bat"
 
 update-programs() {
-  pacman -Qqe > "$HOME/Escritorio/Dotfiles/programs.txt" && \
-    echo -e "  ${T_GREEN}󰄬 Lista guardada en ~/Escritorio/Dotfiles/programs.txt${RESET}"
+  mkdir -p "$HOME/Documentos" && \
+    pacman -Qqe > "$HOME/Documentos/programs.txt" && \
+    echo -e "  ${T_GREEN}󰄬 Lista guardada en ~/Documentos/programs.txt${RESET}"
 }
 
 # ════════════════════════════════════════════════════════════
 # 🔌 SERVIDORES / SSH
 # ════════════════════════════════════════════════════════════
 
-alias vps='ssh -i ~/.ssh/mi_vps_oracle.key opc@137.131.238.173'
-alias server-minecraft='ssh -p 2222 jaren@192.168.100.98'
+# ssh: Configura en ~/.ssh/config en su lugar
+# alias vps='ssh -i ~/.ssh/tu_clave opc@tu-vps-ip'
+# alias server-minecraft='ssh -p 2222 usuario@tu-servidor-ip'
 
 # ════════════════════════════════════════════════════════════
 # ⚡ ENERGÍA
@@ -116,7 +130,7 @@ snapshot() {
 # ════════════════════════════════════════════════════════════
 
 alias androidstudio='~/android-studio/bin/studio.sh'
-alias gemini='python ~/.local/src/asistente_voz/main.py'
+alias gemini='python3 ~/.local/src/asistente_voz/main.py'
 alias opencode="opencode --model ollama/qwen3:8b"
 
 # ════════════════════════════════════════════════════════════
@@ -124,7 +138,7 @@ alias opencode="opencode --model ollama/qwen3:8b"
 # ════════════════════════════════════════════════════════════
 
 jarvis() {
-  local JARVIS_DIR="$HOME/.zona de confort/jarvis"
+  local JARVIS_DIR="$HOME/.zona_de_confort/jarvis"
   cd "$JARVIS_DIR" && .venv/bin/python -m src.cli.main "$@"
 }
 

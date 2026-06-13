@@ -17,7 +17,7 @@ P9K_TOKYO_YELLOW="#e0af68"
 P9K_TOKYO_CYAN="#7dcfff"
 
 # Prompt
-POWERLEVEL9K_MODE=nerdfont-complete
+POWERLEVEL9K_MODE=nerdfont-v3
 POWERLEVEL9K_ICON_PADDING=none
 
 # Left prompt segments

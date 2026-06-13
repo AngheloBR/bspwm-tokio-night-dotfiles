@@ -120,7 +120,7 @@ Configuración completa de **bspwm** con tema **Tokyo Night**, animaciones suave
 ## 🚀 Instalación
 
 ```bash
-git clone https://github.com/AngheloBR/bspwm-tokio-night-dotfiles
+git clone https://github.com/TU_USUARIO/bspwm-tokio-night-dotfiles
 cd bspwm-tokio-night-dotfiles
 ./install.sh
 ```
@@ -658,7 +658,7 @@ bspwm-tokio-night-dotfiles/
 ## 🧪 Probar en VM
 
 ```bash
-git clone https://github.com/AngheloBR/bspwm-tokio-night-dotfiles
+git clone https://github.com/TU_USUARIO/bspwm-tokio-night-dotfiles
 cd bspwm-tokio-night-dotfiles
 ./install.sh
 ```

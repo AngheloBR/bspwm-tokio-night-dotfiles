@@ -65,7 +65,7 @@ while true; do
   WALLPAPER="${WALLPAPERS[$CURRENT]}"
 
   if command -v wal &>/dev/null; then
-    wal -i "$WALLPAPER" -n --saturate 0.7
+    wal -i "$WALLPAPER" -n
   fi
   feh --bg-fill "$WALLPAPER"
 

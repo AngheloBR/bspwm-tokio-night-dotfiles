@@ -21,7 +21,12 @@ if ! command -v pywalfox &>/dev/null; then
 fi
 
 # Inicializar pywalfox
-pywalfox install
+if pgrep -x firefox >/dev/null 2>&1; then
+  pywalfox install || warn "pywalfox install requiere Firefox abierto"
+else
+  warn "Firefox no está abierto. Ejecuta: firefox &"
+  warn "Luego ejecuta: pywalfox install"
+fi
 
 echo ""
 echo "pywalfox instalado."

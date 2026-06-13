@@ -28,7 +28,7 @@ EOF
 
 select_random() {
   if [ -d "$WALLPAPER_DIR" ]; then
-    WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | shuf -n1)
+    WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -print0 | sort -zR | head -zn1)
     if [ -z "$WALLPAPER" ]; then
       notify-send -u critical "change-wallpaper" "No se encontraron imágenes en $WALLPAPER_DIR"
       exit 1
@@ -77,7 +77,7 @@ case "${1:-}" in
 esac
 
 # Aplicar wallpaper con pywal (genera colores dinámicos)
-wal -i "$WALLPAPER" -n --saturate 0.7
+wal -i "$WALLPAPER" -n
 
 # Establecer wallpaper con feh
 feh --bg-fill "$WALLPAPER"

@@ -64,16 +64,22 @@ selected="$(echo "$networks" | rofi -dmenu -p "󰖩 WiFi" -theme "$ROFI_THEME" |
 [[ -z "$selected" ]] && exit 0
 
 if nmcli -t -f NAME connection show | grep -qx "$selected"; then
-  nmcli connection up "$selected" && \
-    echo -e "  ${T_GREEN}󰄬 Conectado a ${T_CYAN}$selected${RESET}" && \
+  if nmcli connection up "$selected"; then
+    echo -e "  ${T_GREEN}󰄬 Conectado a ${T_CYAN}$selected${RESET}"
     notify "Conectado a $selected"
-  exit $?
+    exit 0
+  else
+    echo -e "  ${T_RED}󰑮 Error reconectando a ${T_CYAN}$selected${RESET}"
+    exit 1
+  fi
 fi
 
 password="$(rofi -dmenu -password -p "󰛐 Clave para $selected" -theme "$ROFI_THEME")"
 [[ -z "$password" ]] && exit 0
 
-nmcli device wifi connect "$selected" password "$password" && \
-  echo -e "  ${T_GREEN}󰄬 Conectado a ${T_CYAN}$selected${RESET}" && \
-  notify "Conectado a $selected" || \
+if nmcli device wifi connect "$selected" password "$password"; then
+  echo -e "  ${T_GREEN}󰄬 Conectado a ${T_CYAN}$selected${RESET}"
+  notify "Conectado a $selected"
+else
   echo -e "  ${T_RED}󰑮 Error conectando a ${T_CYAN}$selected${RESET}"
+fi

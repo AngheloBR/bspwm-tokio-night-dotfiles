@@ -45,7 +45,8 @@ window-padding-y = 4
 background-opacity = 0.92
 
 # Shell
-shell-integration = zsh
+# shell-integration = zsh
+# Descomentar si usas zsh
 
 # Enlaces
 mouse-hide-while-typing = true

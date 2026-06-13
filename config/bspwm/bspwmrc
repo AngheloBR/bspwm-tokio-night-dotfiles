@@ -76,5 +76,9 @@ pgrep -x blueman-applet >/dev/null || blueman-applet &
 
 # --- Wallpaper (último wallpaper de pywal) ---
 if [ -f "$HOME/.cache/wal/wal" ]; then
-  feh --bg-fill "$(cat "$HOME/.cache/wal/wal")"
+  feh --bg-fill "$(cat "$HOME/.cache/wal/wal")" 2>/dev/null
+elif [ -n "$(find "$HOME/Pictures/Wallpapers" -type f \( -iname "*.jpg" -o -iname "*.png" \) 2>/dev/null | head -1)" ]; then
+  feh --bg-fill "$(find "$HOME/Pictures/Wallpapers" -type f \( -iname "*.jpg" -o -iname "*.png" \) | head -1)"
+else
+  xsetroot -solid "#1a1b26"
 fi

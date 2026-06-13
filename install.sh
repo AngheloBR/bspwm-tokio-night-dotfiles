@@ -80,6 +80,11 @@ if [ "$EUID" -eq 0 ]; then
   exit 1
 fi
 
+if ! command -v pacman &>/dev/null; then
+  error "Este script solo funciona en Arch Linux. Se requiere pacman."
+  exit 1
+fi
+
 section "Verificando dependencias"
 
 PKGS=(
@@ -132,8 +137,12 @@ if [ ${#MISSING[@]} -gt 0 ]; then
     warn "Continúa sin instalar dependencias..."
   else
     info "Instalando con pacman..."
-    sudo pacman -S --needed --noconfirm "${MISSING[@]}"
-    log "Paquetes instalados"
+    if sudo pacman -S --needed --noconfirm "${MISSING[@]}"; then
+      log "Paquetes instalados"
+    else
+      error "Error instalando paquetes. Abortando."
+      exit 1
+    fi
   fi
 else
   log "Todas las dependencias base están instaladas"
@@ -163,8 +172,11 @@ if check_command "picom"; then
   read -r respuesta
   if [[ "$respuesta" =~ ^[Ss] ]]; then
     if [ -n "$AUR_HELPER" ]; then
-      $AUR_HELPER -S --noconfirm picom-ibhagwan-git
-      log "picom-ibhagwan-git instalado (más animaciones)"
+      if $AUR_HELPER -S --noconfirm picom-ibhagwan-git; then
+        log "picom-ibhagwan-git instalado"
+      else
+        error "Falló la instalación de picom-ibhagwan-git"
+      fi
     else
       warn "No hay AUR helper. Instala picom-ibhagwan-git manualmente"
     fi
@@ -317,7 +329,12 @@ fi
 gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark" 2>/dev/null || true
 
 # Agregar scripts al PATH (zsh)
-if ! grep -q 'local/bin' "$HOME/.zshrc" 2>/dev/null; then
+if [ ! -f "$HOME/.zshrc" ]; then
+  touch "$HOME/.zshrc"
+  warn ".zshrc creado - asegúrate de configurarlo"
+fi
+
+if ! grep -q 'local/bin' "$HOME/.zshrc"; then
   echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
   log "~/.local/bin agregado al PATH en .zshrc"
 fi
@@ -343,8 +360,11 @@ if command -v kvantummanager &>/dev/null; then
   echo -n "¿Aplicar tema Kvantum Tokyonight-Dark-BL? [S/n]: "
   read -r respuesta
   if [[ ! "$respuesta" =~ ^[Nn] ]]; then
-    kvantummanager --set Tokyonight-Dark-BL 2>/dev/null || true
-    log "Kvantum theme: Tokyonight-Dark-BL"
+    if kvantummanager --set Tokyonight-Dark-BL; then
+      log "Kvantum theme: Tokyonight-Dark-BL"
+    else
+      warn "No se pudo establecer tema Kvantum (kvantummanager puede no estar disponible)"
+    fi
   fi
 fi
 
@@ -486,9 +506,12 @@ echo -n "¿Configurar pywalfox (Firefox + colores dinámicos)? [s/N]: "
 read -r respuesta
 if [[ "$respuesta" =~ ^[Ss] ]]; then
   if command -v pip &>/dev/null; then
-    pip install --user pywalfox 2>/dev/null
-    pywalfox install 2>/dev/null || warn "pywalfox requiere Firefox abierto para completar la instalación"
-    log "pywalfox instalado. Ejecuta 'pywalfox update' para sincronizar colores"
+    if pip install --user pywalfox; then
+      pywalfox install 2>/dev/null || warn "pywalfox requiere Firefox abierto"
+      log "pywalfox instalado"
+    else
+      error "Falló la instalación de pywalfox"
+    fi
   else
     warn "pip no instalado. Ejecuta: sudo pacman -S python-pip && pip install --user pywalfox"
   fi

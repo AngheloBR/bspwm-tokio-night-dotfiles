@@ -154,4 +154,8 @@ super + ctrl + s
 
 # --- Menú de poder ---
 super + shift + p
-	rofi -show power-menu -modi power-menu:rofi-power-menu -config ~/.config/rofi/config.rasi
+	if command -v rofi-power-menu &>/dev/null; then
+		rofi -show power-menu -modi power-menu:rofi-power-menu -config ~/.config/rofi/config.rasi
+	else
+		notify-send "Error" "rofi-power-menu no está instalado"
+	fi
