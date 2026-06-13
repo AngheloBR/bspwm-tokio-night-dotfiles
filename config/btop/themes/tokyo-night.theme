@@ -1,0 +1,47 @@
+# ============================================================
+# btop theme - Tokyo Night
+# ============================================================
+
+theme[main_bg]="#1a1b26"
+theme[main_fg]="#c0caf5"
+theme[title]="#7aa2f7"
+theme[hi_fg]="#bb9af7"
+theme[selected_bg]="#24283b"
+theme[selected_fg]="#7aa2f7"
+theme[inactive_fg]="#565f89"
+theme[proc_mem]="#9ece6a"
+theme[proc_cpu]="#7aa2f7"
+theme[proc_info]="#7dcfff"
+theme[proc_selected]="#bb9af7"
+
+# CPU graph colors
+theme[cpu_core]="#7aa2f7"
+theme[cpu_user]="#7aa2f7"
+theme[cpu_system]="#bb9af7"
+theme[cpu_nice]="#9ece6a"
+theme[cpu_iowait]="#e0af68"
+theme[cpu_irq]="#f7768e"
+theme[cpu_softirq]="#ff9e64"
+theme[cpu_steal]="#f7768e"
+theme[cpu_guest]="#7dcfff"
+theme[cpu_guest_nice]="#7dcfff"
+
+# Memory graph colors
+theme[mem_total]="#7aa2f7"
+theme[mem_used]="#bb9af7"
+theme[mem_free]="#9ece6a"
+theme[mem_shared]="#e0af68"
+theme[mem_buffers]="#7dcfff"
+theme[mem_cached]="#7dcfff"
+theme[mem_available]="#9ece6a"
+
+# Network graph colors
+theme[net_download]="#7aa2f7"
+theme[net_upload]="#bb9af7"
+
+# Process colors
+theme[process]="#c0caf5"
+theme[process_highlight]="#7aa2f7"
+theme[process_error]="#f7768e"
+theme[process_warning]="#e0af68"
+theme[process_ok]="#9ece6a"

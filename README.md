@@ -9,98 +9,88 @@
       ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝
 ```
 
-Configuración completa de **bspwm** con tema **Tokyo Night**, animaciones suaves y colores dinámicos tipo **Material You** (pywal).
+Configuración completa de **bspwm** con tema **Tokyo Night**, animaciones suaves, colores dinámicos tipo **Material You** (pywal), y componentes esenciales para un flujo de trabajo moderno.
 
 **Styx**
 
 ---
 
-## ⚡ Requisitos
+## ⚡ Componentes incluidos
 
-- **SO:** Arch Linux / CachyOS (basado en Arch)
-- **WM:** bspwm + sxhkd
-- **Terminal:** Ghostty (opcional, usa Alacritty si prefieres)
-- **AUR helper:** `yay` o `paru` (recomendado)
+| Componente | Archivo | Descripción |
+|---|---|---|
+| **bspwm** | `config/bspwm/bspwmrc` | Bordes Tokyo Night, gaps, rounded |
+| **sxhkd** | `config/sxhkd/sxhkdrc` | Atajos vim + multimedia + power menu |
+| **polybar** | `config/polybar/config.ini` | Barra: workspaces, fecha, red, batería |
+| **picom** | `config/picom/picom.conf` | Sombra, blur, corner-radius 12px, animaciones |
+| **dunst** | `config/dunst/dunstrc` | Notificaciones redondeadas oscuras |
+| **rofi** | `config/rofi/config.rasi` | Lanzador Tokyo Night transparente |
+| **ghostty** | `config/ghostty/config` | Terminal con paleta Tokyo Night |
+| **GTK** | `config/gtk-3.0/settings.ini` | Tema Tokyonight-Dark-BL + Papirus-Dark |
+| **Kvantum** | `config/kvantum/kvantum.kvconfig` | Tema Qt Tokyonight-Dark-BL |
+| **fastfetch** | `config/fastfetch/config.jsonc` | Banner Tokyo Night + Styx |
+| **btop** | `config/btop/themes/tokyo-night.theme` | Monitor del sistema con colores Tokyo Night |
+| **betterlockscreen** | `config/betterlockscreen/betterlockscreenrc` | Pantalla de bloqueo Tokyo Night |
+| **nvim** | `config/nvim/lua/config/colorscheme.lua` | Hint colorscheme Tokyo Night para LazyVim |
+| **zsh/p10k** | `config/zsh/p10k-tokyo-night.zsh` | Powerlevel10k con colores Tokyo Night |
 
 ---
 
 ## 🚀 Instalación
 
-### 1. Clonar el repositorio
-
 ```bash
 git clone https://github.com/AngheloBR/bspwm-tokio-night-dotfiles
 cd bspwm-tokio-night-dotfiles
-```
-
-### 2. Ejecutar instalador
-
-```bash
-chmod +x install.sh
 ./install.sh
 ```
 
 El instalador:
-- Muestra el banner de **Styx**
-- Detecta e instala dependencias faltantes (bspwm, polybar, picom, dunst, rofi, etc.)
-- Te pregunta si quieres instalar `picom-ibhagwan-git` (animaciones extra) y `pywal`
-- Hace respaldo automático de tus configuraciones actuales en `~/.config/backup-dotfiles-*`
-- Copia todas las configuraciones a `~/.config/`
+- Banner **Styx**
+- Detecta e instala dependencias (pacman)
+- AUR: pywal, picom-ibhagwan-git, tokyonight-gtk-theme-git (opcional)
+- Respalda configs anteriores en `~/.config/backup-dotfiles-*`
+- Copia todas las configuraciones
+- Configura: p10k, btop theme, Kvantum, fastfetch, betterlockscreen
 - Instala scripts en `~/.local/bin/`
-- Te muestra los atajos de teclado al finalizar
+- Configura pywalfox (Firefox + Material You) opcional
 
-### 3. Recargar bspwm
+**Recargar bspwm:** `Super + Escape`
 
-```bash
-Super + Escape
+---
+
+## 🖼️ fastfetch banner
+
+Al ejecutar `fastfetch` verás:
+
+```
+   ████████╗ ██████╗ ██╗  ██╗██╗   ██╗ ██████╗
+   ╚══██╔══╝██╔═══██╗██║ ██╔╝╚██╗ ██╔╝██╔═══██╗
+      ██║   ██║   ██║█████╔╝  ╚████╔╝ ██║   ██║
+      ██║   ██║   ██║██╔═██╗   ╚██╔╝  ██║   ██║
+      ██║   ╚██████╔╝██║  ██╗   ██║   ╚██████╔╝
+      ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝
+
+                  Tokyo Night
+                     Styx
+
+   anghelo
+  󰌢 Lenovo IdeaPad 1 15ALC7
+  ...
 ```
 
-O cierra sesión y vuelve a entrar.
-
 ---
 
-## 🧪 Probar en VM
-
-Perfecto para testear antes de aplicar en una PC nueva:
-
-```bash
-# En la VM, instalar bspwm y dependencias
-sudo pacman -S bspwm sxhkd polybar picom dunst rofi feh
-
-# Clonar y ejecutar
-git clone https://github.com/AngheloBR/bspwm-tokio-night-dotfiles
-cd bspwm-tokio-night-dotfiles
-./install.sh
-```
-
----
-
-## 🖥️ Vista previa de componentes
-
-| Componente | Archivo | Descripción |
-|---|---|---|
-| **bspwm** | `config/bspwm/bspwmrc` | Bordes Tokyo Night, gaps 8px, esquinas redondeadas |
-| **sxhkd** | `config/sxhkd/sxhkdrc` | Atajos vim (hjkl), multimedia, rofi, power menu |
-| **polybar** | `config/polybar/config.ini` | Barra con workspaces, fecha, audio, red, batería, power |
-| **picom** | `config/picom/picom.conf` | Sombra, blur dual_kawase, fade, corner-radius 12px |
-| **dunst** | `config/dunst/dunstrc` | Notificaciones con esquinas redondeadas 12px |
-| **rofi** | `config/rofi/config.rasi` | Lanzador con tema Tokyo Night, esquinas 12px |
-| **ghostty** | `config/ghostty/config` | Terminal con paleta Tokyo Night, opacidad 0.92 |
-| **GTK** | `config/gtk-3.0/settings.ini` | Tema Tokyonight-Dark-BL + Papirus-Dark |
-
----
-
-## 🎨 Colores Tokyo Night
+## 🎨 Paleta Tokyo Night
 
 | Color | Hex | Uso |
 |---|---|---|
 | Fondo | `#1a1b26` | bg principal |
 | Superficie | `#24283b` | paneles, barras |
-| Azul | `#7aa2f7` | acento principal, borde activo |
-| Púrpura | `#bb9af7` | acento secundario, presel |
-| Verde | `#9ece6a` | volumen, batería llena |
+| Azul | `#7aa2f7` | acento principal |
+| Púrpura | `#bb9af7` | acento secundario |
+| Verde | `#9ece6a` | volumen, batería |
 | Rojo | `#f7768e` | urgente, errores |
-| Amarillo | `#e0af68` | batería cargando |
+| Amarillo | `#e0af68` | carga, warnings |
 | Cian | `#7dcfff` | red, fecha |
 | Texto | `#c0caf5` | fg principal |
 | Inactivo | `#3b4261` | bordes inactivos |
@@ -109,129 +99,163 @@ cd bspwm-tokio-night-dotfiles
 
 ## 🎯 Atajos de teclado
 
+### Generales
 | Atajo | Acción |
 |---|---|
-| `Super + Enter` | Ghostty (terminal) |
-| `Super + D` | Rofi (lanzador de apps) |
+| `Super + Enter` | Ghostty |
+| `Super + D` | Rofi (lanzador) |
 | `Super + Shift + D` | Rofi (run) |
 | `Super + W` | Rofi (ventanas) |
 | `Super + Shift + W` | Firefox |
 | `Super + Escape` | Lock screen (betterlockscreen) |
 
-## Navegación de ventanas
-
+### Navegación bspwm
 | Atajo | Acción |
 |---|---|
-| `Super + h/j/k/l` | Navegar ventanas (izq/abajo/arriba/der) |
+| `Super + h/j/k/l` | Navegar ventanas |
 | `Super + Shift + h/j/k/l` | Mover ventana |
 | `Super + Ctrl + h/j/k/l` | Preseleccionar dirección |
-| `Super + Ctrl + Shift + h/j/k/l` | Cancelar preselección |
 
-## Escritorios
-
+### Escritorios
 | Atajo | Acción |
 |---|---|
 | `Super + 1-0` | Ir al escritorio N |
 | `Super + Shift + 1-0` | Mover ventana al escritorio N |
-| `Super + Tab` | Último escritorio |
 
-## Ventanas
-
+### Ventanas
 | Atajo | Acción |
 |---|---|
-| `Super + Q` | Cerrar ventana |
+| `Super + Q` | Cerrar |
 | `Super + M` | Fullscreen |
 | `Super + F` | Floating |
-| `Super + T` | Tiled |
-| `Super + Space` | Alternar floating |
+| `Super + Space` | Alternar floating/tiled |
 
-## Multimedia
-
+### Multimedia
 | Atajo | Acción |
 |---|---|
 | `XF86AudioRaiseVolume` | Subir volumen 5% |
 | `XF86AudioLowerVolume` | Bajar volumen 5% |
 | `XF86AudioMute` | Silenciar |
 | `Print` | Flameshot GUI |
-| `Shift + Print` | Flameshot full |
 | `Super + Ctrl + W` | Wallpaper aleatorio (pywal) |
 
 ---
 
-## 🖼️ Wallpaper dinámico (Material You)
+## 🖼️ Wallpaper + Material You
 
 ```bash
-# Wallpaper aleatorio
+# Aleatorio
 change-wallpaper -r ~/Pictures/Wallpapers
 
-# Siguiente wallpaper
-change-wallpaper -n
-
-# Wallpaper específico
+# Específico
 change-wallpaper ~/Pictures/Wallpapers/mi-wallpaper.jpg
+
+# Actual (refrescar)
+change-wallpaper -c
 ```
 
-El script `change-wallpaper`:
-1. Toma el wallpaper
-2. Genera paleta de colores con `pywal` (Material You)
-3. Actualiza el fondo con `feh`
-4. Actualiza Firefox colors si usas `pywalfox`
-
-Los colores se regeneran automáticamente desde `~/.cache/wal/colors`.
+Usa `pywal` para extraer colores y actualizar todo el sistema al vuelo.
 
 ---
 
-## ⚙️ Animaciones extra
-
-El `picom.conf` incluye sombras, blur y fade por defecto.
-
-Para animaciones más avanzadas (zoom al abrir/cerrar ventanas):
+## 🔥 Firefox + pywalfox
 
 ```bash
-# Instalar fork de picom con animaciones
-./scripts/install-picom-animations.sh
+# Instalar e inicializar
+setup-pywalfox
 
-# Descomentar en ~/.config/picom/picom.conf:
-#   animations = true
-#   animation-for-open-window = "zoom"
-#   animation-for-close-window = "zoom"
+# Después de cambiar wallpaper, actualizar Firefox
+pywalfox update
 ```
 
 ---
 
-## 📁 Estructura del proyecto
+## 🖥️ Neovim (LazyVim)
+
+El hint de configuración se copia a:
+```
+~/.config/nvim/lua/config/colorscheme.lua
+```
+
+Asegúrate de tener el plugin en tu `~/.config/nvim/lazy-lock.json`:
+```lua
+{ "folke/tokyonight.nvim", lazy = false, priority = 1000 }
+```
+
+---
+
+## 📊 btop
+
+Tema Tokyo Night instalado automáticamente en `~/.config/btop/themes/tokyo-night.theme`.
+
+Selecciónalo en btop: `Esc → Themes → tokyo-night`
+
+---
+
+## 🔒 betterlockscreen
+
+Configuración Tokyo Night instalada. Para generar fondos de bloqueo:
+
+```bash
+betterlockscreen -u ~/Pictures/Wallpapers/tokyo-night-wallpaper.jpg
+```
+
+Luego bloquea con `Super + Escape`.
+
+---
+
+## 🐚 ZSH + Powerlevel10k
+
+Config Tokyo Night copiada a `~/.p10k.zsh`.
+
+En tu `.zshrc` asegúrate de tener:
+```zsh
+source ~/.p10k.zsh
+```
+
+---
+
+## 📁 Estructura completa
 
 ```
 bspwm-tokio-night-dotfiles/
-├── install.sh                    # Instalador con banner Styx
+├── install.sh
+├── README.md
 ├── config/
-│   ├── bspwm/bspwmrc             # Configuración de bspwm
-│   ├── sxhkd/sxhkdrc             # Atajos de teclado
-│   ├── polybar/
-│   │   ├── config.ini            # Barra de estado
-│   │   └── launch.sh             # Script de inicio
-│   ├── picom/picom.conf          # Compositor + animaciones
-│   ├── dunst/dunstrc             # Notificaciones
-│   ├── rofi/config.rasi          # App launcher
-│   ├── ghostty/config            # Terminal
-│   └── gtk-3.0/settings.ini      # Tema GTK
+│   ├── bspwm/bspwmrc
+│   ├── sxhkd/sxhkdrc
+│   ├── polybar/{config.ini, launch.sh}
+│   ├── picom/picom.conf
+│   ├── dunst/dunstrc
+│   ├── rofi/config.rasi
+│   ├── ghostty/config
+│   ├── gtk-3.0/settings.ini
+│   ├── fastfetch/config.jsonc
+│   ├── betterlockscreen/betterlockscreenrc
+│   ├── btop/{btop.conf, themes/tokyo-night.theme}
+│   ├── kvantum/kvantum.kvconfig
+│   ├── nvim/lua/config/colorscheme.lua
+│   └── zsh/p10k-tokyo-night.zsh
 ├── themes/
-│   └── colors-tokyo-night.sh     # Paleta de colores
+│   └── colors-tokyo-night.sh
 ├── scripts/
-│   ├── change-wallpaper.sh       # Wallpaper + pywal
+│   ├── change-wallpaper.sh
+│   ├── setup-pywalfox.sh
 │   └── install-picom-animations.sh
-└── README.md
+└── wallpapers/
 ```
 
 ---
 
-## 🔧 Personalización
+## 🧪 Probar en VM
 
-1. **Colores:** Edita `~/.config/themes/colors-tokyo-night.sh`
-2. **Atajos:** Edita `~/.config/sxhkd/sxhkdrc`
-3. **Barra:** Edita `~/.config/polybar/config.ini`
-4. **Animaciones:** Edita `~/.config/picom/picom.conf`
-5. **Wallpapers:** Pon imágenes en `~/Pictures/Wallpapers/`
+```bash
+git clone https://github.com/AngheloBR/bspwm-tokio-night-dotfiles
+cd bspwm-tokio-night-dotfiles
+./install.sh
+```
+
+Perfecto para testear en una VM antes de aplicar en PC nueva.
 
 ---
 

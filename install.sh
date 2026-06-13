@@ -86,15 +86,15 @@ PKGS=(
   # Core
   bspwm sxhkd polybar picom dunst rofi
   # Herramientas
-  feh brightnessctl playerctl
+  feh brightnessctl playerctl fastfetch
   # Audio
   pipewire pipewire-pulse wireplumber
   # Fuentes
   ttf-jetbrains-mono-nerd noto-fonts ttf-font-awesome
   # Temas
-  papirus-icon-theme
+  papirus-icon-theme kvantum
   # Utilidades
-  btop flameshot betterlockscreen
+  btop flameshot betterlockscreen neovim
 )
 
 AUR_PKGS=()
@@ -177,6 +177,13 @@ BACKUP_DIRS=(
   "$HOME/.config/rofi"
   "$HOME/.config/ghostty"
   "$HOME/.config/gtk-3.0"
+  "$HOME/.config/fastfetch"
+  "$HOME/.config/betterlockscreen"
+  "$HOME/.config/btop"
+  "$HOME/.config/Kvantum"
+  "$HOME/.config/nvim"
+  "$HOME/.config/themes"
+  "$HOME/.p10k.zsh"
 )
 
 for dir in "${BACKUP_DIRS[@]}"; do
@@ -220,6 +227,12 @@ CONFIG_MAP=(
   "rofi:rofi"
   "ghostty:ghostty"
   "gtk-3.0:gtk-3.0"
+  "fastfetch:fastfetch"
+  "betterlockscreen:betterlockscreen"
+  "btop:btop"
+  "kvantum:Kvantum"
+  "nvim:nvim"
+  "zsh:zsh"
 )
 
 for entry in "${CONFIG_MAP[@]}"; do
@@ -243,6 +256,8 @@ chmod +x "$HOME/.config/bspwm/bspwmrc" 2>/dev/null || true
 info "Instalando scripts..."
 cp "$SCRIPTS_DIR/change-wallpaper.sh" "$HOME/.local/bin/change-wallpaper"
 chmod +x "$HOME/.local/bin/change-wallpaper"
+cp "$SCRIPTS_DIR/setup-pywalfox.sh" "$HOME/.local/bin/setup-pywalfox"
+chmod +x "$HOME/.local/bin/setup-pywalfox"
 log "Scripts instalados en ~/.local/bin/"
 
 # ============================================================
@@ -279,6 +294,66 @@ if ! grep -q 'local/bin' "$HOME/.zshrc" 2>/dev/null; then
   log "~/.local/bin agregado al PATH en .zshrc"
 fi
 
+# Configurar p10k
+P10K_SRC="$HOME/.config/zsh/p10k-tokyo-night.zsh"
+P10K_DEST="$HOME/.p10k.zsh"
+if [ -f "$P10K_SRC" ] && [ ! -f "$P10K_DEST" ]; then
+  cp "$P10K_SRC" "$P10K_DEST"
+  log "p10k Tokyo Night configurado (~/.p10k.zsh)"
+  echo "Asegúrate de tener en .zshrc:  source ~/.p10k.zsh"
+fi
+
+# Instalar btop theme
+BTOP_THEME_SRC="$HOME/.config/btop/themes/tokyo-night.theme"
+BTOP_THEME_DIR="$HOME/.config/btop/themes"
+if [ -f "$BTOP_THEME_SRC" ]; then
+  mkdir -p "$BTOP_THEME_DIR"
+  log "btop Tokyo Night theme instalado"
+fi
+
+# Instalar Kvantum theme
+if command -v kvantummanager &>/dev/null; then
+  echo -n "¿Aplicar tema Kvantum Tokyonight-Dark-BL? [S/n]: "
+  read -r respuesta
+  if [[ ! "$respuesta" =~ ^[Nn] ]]; then
+    kvantummanager --set Tokyonight-Dark-BL 2>/dev/null || true
+    log "Kvantum theme: Tokyonight-Dark-BL"
+  fi
+fi
+
+# Configurar betterlockscreen
+if command -v betterlockscreen &>/dev/null && [ -f "$HOME/.config/betterlockscreen/betterlockscreenrc" ]; then
+  log "betterlockscreen configurado (atajo: Super + Escape)"
+  echo "  Para generar fondos de bloqueo: betterlockscreen -u ~/Pictures/Wallpapers/wallpaper.jpg"
+fi
+
+# Fastfetch
+if command -v fastfetch &>/dev/null; then
+  log "fastfetch Tokyo Night configurado"
+  echo "  Para probar: fastfetch --config ~/.config/fastfetch/config.jsonc"
+fi
+
+# Neovim hint
+if command -v nvim &>/dev/null; then
+  log "Neovim: se copió hint de colorscheme Tokyo Night"
+  echo "  Revisa: ~/.config/nvim/lua/config/colorscheme.lua"
+  echo "  (Ajusta según tu estructura de LazyVim)"
+fi
+
+# pywalfox
+echo ""
+echo -n "¿Configurar pywalfox (Firefox + colores dinámicos)? [s/N]: "
+read -r respuesta
+if [[ "$respuesta" =~ ^[Ss] ]]; then
+  if command -v pip &>/dev/null; then
+    pip install --user pywalfox 2>/dev/null
+    pywalfox install 2>/dev/null || warn "pywalfox requiere Firefox abierto para completar la instalación"
+    log "pywalfox instalado. Ejecuta 'pywalfox update' para sincronizar colores"
+  else
+    warn "pip no instalado. Ejecuta: sudo pacman -S python-pip && pip install --user pywalfox"
+  fi
+fi
+
 # ============================================================
 # FINAL
 # ============================================================
@@ -299,22 +374,31 @@ echo -e "${PURPLE}  ────────────────────
 echo ""
 echo -e "${GREEN}  Tokyo Night bspwm dotfiles instalados correctamente${NC}"
 echo ""
+echo -e "${YELLOW}  Componentes instalados:${NC}"
+echo -e "  ${CYAN}✓${NC} bspwm + sxhkd     ${CYAN}✓${NC} polybar        ${CYAN}✓${NC} picom (animaciones)"
+echo -e "  ${CYAN}✓${NC} dunst             ${CYAN}✓${NC} rofi           ${CYAN}✓${NC} ghostty"
+echo -e "  ${CYAN}✓${NC} fastfetch         ${CYAN}✓${NC} btop           ${CYAN}✓${NC} betterlockscreen"
+echo -e "  ${CYAN}✓${NC} GTK/Kvantum       ${CYAN}✓${NC} Neovim hint    ${CYAN}✓${NC} zsh/p10k"
+echo -e "  ${CYAN}✓${NC} pywal (Material You)  ${CYAN}✓${NC} Firefox (pywalfox)"
+echo ""
 echo -e "${YELLOW}  Pasos siguientes:${NC}"
 echo ""
 echo -e "  1. ${CYAN}Recargar bspwm:${NC}  ${PURPLE}Super + Escape${NC}"
 echo -e "     ${YELLOW}O cierra sesión y vuelve a entrar${NC}"
 echo ""
-echo -e "  2. ${CYAN}Cambiar wallpaper:${NC}"
+echo -e "  2. ${CYAN}Mostrar info del sistema:${NC}  ${PURPLE}fastfetch${NC}"
+echo ""
+echo -e "  3. ${CYAN}Cambiar wallpaper + colores:${NC}"
 echo -e "     ${PURPLE}change-wallpaper -r ~/Pictures/Wallpapers${NC}"
 echo ""
-echo -e "  3. ${CYAN}Atajos clave:${NC}"
+echo -e "  4. ${CYAN}Pantalla de bloqueo:${NC}  ${PURPLE}Super + Escape${NC}"
+echo ""
+echo -e "  5. ${CYAN}Atajos clave:${NC}"
 echo -e "     ${PURPLE}Super + D${NC}       → Rofi (lanzador)"
 echo -e "     ${PURPLE}Super + Enter${NC}    → Ghostty (terminal)"
 echo -e "     ${PURPLE}Super + W${NC}        → Rofi (ventanas)"
-echo -e "     ${PURPLE}Super + Escape${NC}   → Lock screen"
 echo -e "     ${PURPLE}Super + Q${NC}        → Cerrar ventana"
 echo -e "     ${PURPLE}Super + [hjkl]${NC}    → Navegar ventanas"
-echo -e "     ${PURPLE}Super + Shift + [1-9]${NC} → Mover a escritorio"
 echo ""
 echo -e "${GREEN}  ¡Disfruta tu Tokyo Night!${NC}"
 echo -e "${CYAN}  Styx${NC}"

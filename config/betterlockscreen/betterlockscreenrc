@@ -1,0 +1,39 @@
+# ============================================================
+# betterlockscreenrc - Tokyo Night Edition
+# ============================================================
+
+# Colors (Tokyo Night)
+background=#1a1b26
+
+# Lock screen colors
+lock=#1a1b26
+locktext=#c0caf5
+lockinactive=#24283b
+lockwrong=#f7768e
+lockverify=#7aa2f7
+lockring=#24283b
+lockringver=#7aa2f7
+lockringwrong=#f7768e
+lockclock=#7aa2f7
+lockdate=#565f89
+lockpowermenu=#c0caf5
+lockpowerbg=#24283b
+lockpowerselected=#7aa2f7
+lockpowerwrong=#f7768e
+
+# Layout
+locklayout=default
+locktimeformat=%H:%M
+lockdateformat=%A, %d %B %Y
+lockscreentext=Tus archivos están cifrados con Tokyo Night
+
+lockindicator=yes
+lockclockposition=0,-100
+lockdateposition=0,-40
+lockpowerposition=0,100
+
+# Lock screen image
+lockimage=~/.config/betterlockscreen/wallpaper.png
+
+# Scale
+lockscaling=fit
