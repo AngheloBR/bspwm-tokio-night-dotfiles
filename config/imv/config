@@ -1,0 +1,21 @@
+# ============================================================
+# imv config - Tokyo Night
+# ============================================================
+
+[options]
+background=1a1b26
+overlay_font=JetBrainsMono Nerd Font:size=12
+overlay_text_pos=top_left
+overlay_text=%f %p %i
+slideshow_delay=5
+recursive=yes
+
+[binds]
+<Esc> = quit
+q = quit
+<Space> = toggle_gif
+f = fullscreen
+r = reload
+<Left> = prev
+<Right> = next
+<C-c> = exec echo %f | xclip -selection clipboard

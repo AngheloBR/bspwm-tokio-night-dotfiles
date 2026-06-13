@@ -69,6 +69,12 @@ pgrep -x polybar >/dev/null || "$HOME/.config/polybar/launch.sh" &
 # --- Notificaciones ---
 pgrep -x dunst >/dev/null || dunst -config "$HOME/.config/dunst/dunstrc" &
 
+# --- NetworkManager applet ---
+pgrep -x nm-applet >/dev/null || nm-applet &
+
+# --- Bluetooth applet ---
+pgrep -x blueman-applet >/dev/null || blueman-applet &
+
 # --- Wallpaper (último wallpaper de pywal) ---
 if [ -f "$HOME/.cache/wal/wal" ]; then
   feh --bg-fill "$(cat "$HOME/.cache/wal/wal")"

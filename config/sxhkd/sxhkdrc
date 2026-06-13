@@ -127,6 +127,13 @@ super + shift + q
 super + space
 	bspc node -t floating; bspc node -f focused
 
+# --- Clipboard manager (cliphist) ---
+super + v
+	cliphist list | rofi -dmenu -config ~/.config/rofi/config.rasi -p "clipboard" | cliphist decode | wl-copy
+
+super + shift + v
+	cliphist wipe
+
 # --- Recargar bspwm y sxhkd ---
 super + Escape
 	bspc wm -r

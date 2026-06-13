@@ -95,6 +95,9 @@ PKGS=(
   papirus-icon-theme kvantum
   # Utilidades
   btop flameshot betterlockscreen neovim cava ranger thunar wget
+  zathura zathura-pdf-poppler imv cliphist wl-clipboard
+  nm-connection-editor network-manager-applet
+  blueman pavucontrol thunar-shares thunar-archive-plugin
 )
 
 AUR_PKGS=()
@@ -242,6 +245,9 @@ CONFIG_MAP=(
   "cmus:cmus"
   "mpv:mpv"
   "yazi:yazi"
+  "zathura:zathura"
+  "imv:imv"
+  "cliphist:cliphist"
 )
 
 for entry in "${CONFIG_MAP[@]}"; do
@@ -392,6 +398,25 @@ if command -v yazi &>/dev/null; then
   echo "  Más rápido que ranger, preview nativo de imágenes/video/PDF"
 fi
 
+# zathura
+if command -v zathura &>/dev/null; then
+  log "zathura Tokyo Night configurado"
+  echo "  zathura: visor PDF minimalista con tema oscuro Tokyo Night"
+fi
+
+# imv
+if command -v imv &>/dev/null; then
+  log "imv Tokyo Night configurado"
+  echo "  imv: visor de imágenes minimalista con fondo Tokyo Night"
+fi
+
+# cliphist
+if command -v cliphist &>/dev/null; then
+  log "cliphist: clipboard manager instalado"
+  echo "  Super + V → historial del portapapeles"
+  echo "  Super + Shift + V → limpiar historial"
+fi
+
 # Firefox
 log "Firefox userChrome.css Tokyo Night (macOS style) instalado"
 echo "  Para activar:"
@@ -463,7 +488,9 @@ echo -e "  ${CYAN}✓${NC} GTK/Kvantum        ${CYAN}✓${NC} nvim           ${C
 echo -e "  ${CYAN}✓${NC} Firefox macOS      ${CYAN}✓${NC} LightDM macOS  ${CYAN}✓${NC} cava"
 echo -e "  ${CYAN}✓${NC} ranger             ${CYAN}✓${NC} auto-wallpaper ${CYAN}✓${NC} pywal+pywalfox"
 echo -e "  ${CYAN}✓${NC} Thunar             ${CYAN}✓${NC} lazygit        ${CYAN}✓${NC} cmus"
-echo -e "  ${CYAN}✓${NC} mpv                ${CYAN}✓${NC} yazi"
+echo -e "  ${CYAN}✓${NC} mpv                ${CYAN}✓${NC} yazi            ${CYAN}✓${NC} zathura"
+echo -e "  ${CYAN}✓${NC} imv                ${CYAN}✓${NC} cliphist       ${CYAN}✓${NC} nm-applet"
+echo -e "  ${CYAN}✓${NC} blueman            ${CYAN}✓${NC} pavucontrol"
 echo ""
 echo -e "${YELLOW}  Pasos siguientes:${NC}"
 echo ""

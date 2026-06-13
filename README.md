@@ -44,6 +44,9 @@ Configuración completa de **bspwm** con tema **Tokyo Night**, animaciones suave
 | **cmus** | `config/cmus/rc` | Reproductor música terminal Tokyo Night |
 | **mpv** | `config/mpv/mpv.conf` | Reproductor video con OSD Tokyo Night |
 | **yazi** | `config/yazi/{theme.toml, yazi.toml}` | File manager Rust (rápido) Tokyo Night |
+| **zathura** | `config/zathura/zathurarc` | Visor PDF minimal Tokyo Night |
+| **imv** | `config/imv/config` | Visor imágenes Tokyo Night |
+| **cliphist** | `config/cliphist/config.toml` | Clipboard manager + sxhkd binding |
 
 ---
 
@@ -77,7 +80,9 @@ Configuración completa de **bspwm** con tema **Tokyo Night**, animaciones suave
 │  ├── dunst       → Notifications                      │
 │  ├── lazygit     → TUI git                             │
 │  ├── cmus        → Música terminal                     │
-│  └── mpv         → Video player                        │
+│  ├── mpv         → Video player                        │
+│  ├── zathura     → Visor PDF                           │
+│  └── imv         → Visor imágenes                      │
 │                                                      │
 │  🎨 THEMING                                          │
 │  ├── pywal       → Dynamic colors (Material You)      │
@@ -395,6 +400,62 @@ Atajos:
 
 ---
 
+## 📄 zathura (visor PDF minimal)
+
+Visor PDF con tema oscuro Tokyo Night y JetBrainsMono.
+
+```bash
+zathura documento.pdf
+```
+
+Atajos:
+- `j/k` → scroll
+- `f` → pantalla completa
+- `i` → recolor (toggle modo invertido)
+- `r` → recargar
+
+---
+
+## 🖼️ imv (visor de imágenes minimal)
+
+Alternativa ultra rápida a feh/sxiv para ver imágenes.
+
+```bash
+imv imagen.png
+imv *.jpg        # slideshow
+```
+
+Atajos:
+- `Left/Right` → anterior/siguiente
+- `f` → pantalla completa
+- `<espacio>` → toggle GIF animado
+- `Ctrl+C` → copiar ruta al clipboard
+
+---
+
+## 📋 cliphist (clipboard manager)
+
+Historial del portapapeles con interfaz rofi.
+
+| Tecla | Acción |
+|---|---|
+| `Super + V` | Abrir historial del clipboard |
+| `Super + Shift + V` | Limpiar historial |
+
+Requiere `wl-clipboard` (Wayland). Soporta texto, imágenes y archivos.
+
+---
+
+## 🌐 nm-applet + blueman
+
+Autostart en bspwmrc:
+- **nm-applet** → icono de red en la bandeja
+- **blueman-applet** → icono de bluetooth en la bandeja
+
+Se inician automáticamente al iniciar bspwm.
+
+---
+
 ## 💡 Notas extra
 
 - **Obsidian**: Tema Tokyo Night disponible en Ajustes → Apariencia → Temas comunitarios
@@ -514,7 +575,10 @@ bspwm-tokio-night-dotfiles/
 │   ├── lazygit/config.yml
 │   ├── cmus/rc
 │   ├── mpv/mpv.conf
-│   └── yazi/{theme.toml, yazi.toml}
+│   ├── yazi/{theme.toml, yazi.toml}
+│   ├── zathura/zathurarc
+│   ├── imv/config
+│   └── cliphist/config.toml
 ├── themes/
 │   └── colors-tokyo-night.sh
 ├── scripts/
