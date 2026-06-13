@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================================
+     Thunar custom actions - Tokyo Night
+     ============================================================ -->
+<actions>
+  <action>
+    <icon>utilities-terminal</icon>
+    <name>Abrir terminal aquí</name>
+    <submenu></submenu>
+    <unique-id>1712345678-1</unique-id>
+    <command>ghostty --working-directory=%f</command>
+    <description>Abre Ghostty en el directorio actual</description>
+    <patterns>*</patterns>
+    <startup-notify/>
+    <directories/>
+  </action>
+  <action>
+    <icon>image-x-generic</icon>
+    <name>Cambiar wallpaper</name>
+    <submenu></submenu>
+    <unique-id>1712345678-2</unique-id>
+    <command>change-wallpaper %f</command>
+    <description>Establece esta imagen como wallpaper con pywal</description>
+    <patterns>*.jpg;*.jpeg;*.png;*.webp</patterns>
+    <startup-notify/>
+    <image-files/>
+  </action>
+  <action>
+    <icon>edit-copy</icon>
+    <name>Copiar ruta</name>
+    <submenu></submenu>
+    <unique-id>1712345678-3</unique-id>
+    <command>echo %f | xclip -selection clipboard</command>
+    <description>Copia la ruta completa del archivo</description>
+    <patterns>*</patterns>
+    <startup-notify/>
+    <directories/>
+    <files/>
+  </action>
+  <action>
+    <icon>accessories-archive</icon>
+    <name>Extraer aquí</name>
+    <submenu></submenu>
+    <unique-id>1712345678-4</unique-id>
+    <command>tar -xvf %f 2>/dev/null || unzip %f 2>/dev/null || 7z x %f</command>
+    <description>Extrae archivos comprimidos</description>
+    <patterns>*.tar.gz;*.tar.xz;*.tar.bz2;*.tar;*.zip;*.7z;*.rar</patterns>
+    <startup-notify/>
+    <files/>
+  </action>
+</actions>

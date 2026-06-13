@@ -39,6 +39,66 @@ Configuración completa de **bspwm** con tema **Tokyo Night**, animaciones suave
 | **ranger** | `config/ranger/` | File manager terminal con Tokyo Night |
 | **wallpapers** | `scripts/download-wallpapers.sh` | Descarga wallpapers oficiales Tokyo Night |
 | **auto-wallpaper** | `scripts/auto-wallpaper.sh` | Cambio automático de wallpaper cada N min |
+| **Thunar** | `config/Thunar/uca.xml` + `config/gtk-3.0/gtk.css` | File manager GUI con Tokyo Night |
+
+---
+
+## 📦 Stack completo (Full Stack)
+
+```
+┌─────────────────────────────────────────────────────┐
+│                    TOKYO NIGHT                      │
+├─────────────────────────────────────────────────────┤
+│                                                      │
+│  🪟 WINDOW MANAGER                                   │
+│  ├── bspwm       → Window manager                    │
+│  ├── sxhkd       → Key bindings                      │
+│  ├── polybar     → Status bar                        │
+│  ├── picom       → Compositor + animaciones          │
+│  ├── lightdm     → Display manager (login macOS)     │
+│  └── betterlockscreen → Lock screen                  │
+│                                                      │
+│  📱 APPLICATIONS                                     │
+│  ├── ghostty     → Terminal                           │
+│  ├── rofi        → App launcher                       │
+│  ├── firefox     → Browser (macOS style)              │
+│  ├── thunar      → File manager GUI (GTK)             │
+│  ├── ranger      → File manager TUI                   │
+│  ├── nvim        → Editor (LazyVim + Tokyo Night)     │
+│  ├── cava        → Audio visualizer                   │
+│  ├── fastfetch   → System info                        │
+│  ├── btop        → System monitor                     │
+│  ├── flameshot   → Screenshots                        │
+│  └── dunst       → Notifications                      │
+│                                                      │
+│  🎨 THEMING                                          │
+│  ├── pywal       → Dynamic colors (Material You)      │
+│  ├── pywalfox    → Firefox colors                     │
+│  ├── Tokyo Night → GTK theme                          │
+│  ├── Kvantum     → Qt theme                           │
+│  ├── Papirus-Dark → Icon theme                        │
+│  └── JetBrainsMono Nerd Font → Monospace font         │
+│                                                      │
+│  🐚 SHELL & TOOLS                                     │
+│  ├── zsh         → Shell                              │
+│  ├── oh-my-zsh   → ZSH framework                      │
+│  ├── powerlevel10k → Prompt                           │
+│  ├── bat         → Cat with syntax highlight          │
+│  ├── playerctl   → Media controls                     │
+│  ├── brightnessctl → Brightness                       │
+│  ├── pipewire    → Audio                              │
+│  ├── feh         → Wallpaper setter                    │
+│  └── wget        → Downloads                          │
+│                                                      │
+│  📜 SCRIPTS                                          │
+│  ├── change-wallpaper.sh   → Wallpaper + pywal        │
+│  ├── auto-wallpaper.sh     → Auto change N min        │
+│  ├── download-wallpapers.sh → Get official wallpapers │
+│  ├── setup-pywalfox.sh     → Firefox + pywal          │
+│  └── install-picom-animations.sh → Extra animations   │
+│                                                      │
+└─────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -246,6 +306,21 @@ cp config/firefox/user.js ~/.mozilla/firefox/*.default-release/
 
 ---
 
+## 📂 Thunar (file manager gráfico)
+
+Thunar usa el tema GTK `Tokyonight-Dark-BL` automáticamente. Además incluimos:
+
+- **`config/Thunar/uca.xml`** → Acciones personalizadas:
+  - Abrir terminal aquí (Ghostty)
+  - Cambiar wallpaper con pywal
+  - Copiar ruta al portapapeles
+  - Extraer comprimidos
+- **`config/gtk-3.0/gtk.css`** → Tweaks específicos para Thunar (sidebar, path bar, statusbar, selecciones)
+
+No requiere activación extra — solo tener `Tokyonight-Dark-BL` en GTK.
+
+---
+
 ## 🔐 LightDM macOS Tokyo Night
 
 Pantalla de login estilo macOS con:
@@ -343,7 +418,7 @@ bspwm-tokio-night-dotfiles/
 │   ├── dunst/dunstrc
 │   ├── rofi/config.rasi
 │   ├── ghostty/config
-│   ├── gtk-3.0/settings.ini
+│   ├── gtk-3.0/{settings.ini, gtk.css}
 │   ├── fastfetch/config.jsonc
 │   ├── betterlockscreen/betterlockscreenrc
 │   ├── btop/{btop.conf, themes/tokyo-night.theme}
@@ -353,7 +428,8 @@ bspwm-tokio-night-dotfiles/
 │   ├── firefox/{userChrome.css, userChrome-tokyo-night.css, user.js}
 │   ├── lightdm/{lightdm-gtk-greeter.conf, lightdm-webkit2-greeter.conf, webkit-theme/}
 │   ├── cava/config
-│   └── ranger/{rc.conf, scope.sh, colorschemes/tokyo-night.py}
+│   ├── ranger/{rc.conf, scope.sh, colorschemes/tokyo-night.py}
+│   └── Thunar/uca.xml
 ├── themes/
 │   └── colors-tokyo-night.sh
 ├── scripts/

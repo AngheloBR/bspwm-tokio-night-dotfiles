@@ -1,0 +1,102 @@
+/* ============================================================
+   GTK CSS tweaks - Tokyo Night (Thunar, Nautilus, etc.)
+   ============================================================ */
+
+/* Thunar sidebar */
+.thunar .sidebar {
+  background-color: #1a1b26;
+}
+
+.thunar .sidebar .view {
+  background-color: #1a1b26;
+  color: #c0caf5;
+}
+
+.thunar .sidebar .view:selected {
+  background-color: #7aa2f7;
+  color: #1a1b26;
+}
+
+/* Thunar path bar */
+.thunar .location-bar {
+  background-color: #24283b;
+  border-bottom: 1px solid #2f3549;
+}
+
+/* Thunar status bar */
+.thunar .statusbar {
+  background-color: #1a1b26;
+  color: #565f89;
+}
+
+/* Thunar icon view */
+.thunar .icon-view .view {
+  background-color: #1a1b26;
+}
+
+.thunar .icon-view .view:selected {
+  background-color: #7aa2f7;
+  color: #1a1b26;
+}
+
+/* General GTK overrides */
+window.background,
+menu,
+.menu,
+.context-menu {
+  background-color: #1a1b26;
+  color: #c0caf5;
+}
+
+menu > menuitem:hover,
+.menu > menuitem:hover {
+  background-color: #2f3549;
+}
+
+scrollbar {
+  background-color: #1a1b26;
+}
+
+scrollbar slider {
+  background-color: #2f3549;
+  border-radius: 4px;
+}
+
+scrollbar slider:hover {
+  background-color: #3b4261;
+}
+
+/* Dialog windows */
+dialog {
+  background-color: #1a1b26;
+  color: #c0caf5;
+}
+
+/* Buttons */
+button {
+  background-color: #24283b;
+  color: #c0caf5;
+  border: 1px solid #2f3549;
+  border-radius: 6px;
+}
+
+button:hover {
+  background-color: #2f3549;
+}
+
+button:checked {
+  background-color: #7aa2f7;
+  color: #1a1b26;
+}
+
+/* Entry fields */
+entry {
+  background-color: #24283b;
+  color: #c0caf5;
+  border: 1px solid #2f3549;
+  border-radius: 6px;
+}
+
+entry:focus {
+  border-color: #7aa2f7;
+}

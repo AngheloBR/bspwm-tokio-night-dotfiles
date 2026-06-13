@@ -94,7 +94,7 @@ PKGS=(
   # Temas
   papirus-icon-theme kvantum
   # Utilidades
-  btop flameshot betterlockscreen neovim cava ranger wget
+  btop flameshot betterlockscreen neovim cava ranger thunar wget
 )
 
 AUR_PKGS=()
@@ -227,6 +227,7 @@ CONFIG_MAP=(
   "rofi:rofi"
   "ghostty:ghostty"
   "gtk-3.0:gtk-3.0"
+  "Thunar:Thunar"
   "fastfetch:fastfetch"
   "betterlockscreen:betterlockscreen"
   "btop:btop"
@@ -237,6 +238,7 @@ CONFIG_MAP=(
   "lightdm:lightdm"
   "cava:cava"
   "ranger:ranger"
+  "Thunar:Thunar"
 )
 
 for entry in "${CONFIG_MAP[@]}"; do
@@ -353,6 +355,13 @@ if command -v cava &>/dev/null; then
   echo "  Para probar: cava"
 fi
 
+# Thunar
+if command -v thunar &>/dev/null; then
+  log "Thunar Tokyo Night configurado"
+  echo "  Thunar usa el theme GTK Tokyonight-Dark-BL automáticamente"
+  echo "  Acciones personalizadas (uca.xml): abrir terminal, copiar ruta, extraer, wallpaper"
+fi
+
 # Firefox
 log "Firefox userChrome.css Tokyo Night (macOS style) instalado"
 echo "  Para activar:"
@@ -422,7 +431,8 @@ echo -e "  ${CYAN}✓${NC} dunst              ${CYAN}✓${NC} rofi           ${C
 echo -e "  ${CYAN}✓${NC} fastfetch          ${CYAN}✓${NC} btop           ${CYAN}✓${NC} lockscreen"
 echo -e "  ${CYAN}✓${NC} GTK/Kvantum        ${CYAN}✓${NC} nvim           ${CYAN}✓${NC} zsh/p10k"
 echo -e "  ${CYAN}✓${NC} Firefox macOS      ${CYAN}✓${NC} LightDM macOS  ${CYAN}✓${NC} cava"
-echo -e "  ${CYAN}✓${NC} ranger             ${CYAN}✓${NC} auto-wallpaper ${CYAN}✓${NC} pywal+pywalfox"
+  echo -e "  ${CYAN}✓${NC} ranger             ${CYAN}✓${NC} auto-wallpaper ${CYAN}✓${NC} pywal+pywalfox"
+  echo -e "  ${CYAN}✓${NC} Thunar"
 echo ""
 echo -e "${YELLOW}  Pasos siguientes:${NC}"
 echo ""
