@@ -1,0 +1,150 @@
+# ============================================================
+# sxhkdrc - Tokyo Night Edition
+# ============================================================
+
+# --- Modo de uso ---
+# Super = Mod4 (Windows key)
+# Mod1  = Alt
+
+# --- Terminal ---
+super + Return
+	ghostty
+
+super + shift + Return
+	alacritty
+
+# --- Programas ---
+super + d
+	rofi -show drun -config ~/.config/rofi/config.rasi
+
+super + shift + d
+	rofi -show run -config ~/.config/rofi/config.rasi
+
+super + w
+	rofi -show window -config ~/.config/rofi/config.rasi
+
+super + shift + w
+	firefox
+
+super + e
+	thunar
+
+super + shift + e
+	geany
+
+# --- Screenshots ---
+Print
+	flameshot gui
+
+shift + Print
+	flameshot full -p ~/Pictures/Screenshots
+
+# --- Audio (con amixer/pipewire) ---
+XF86AudioRaiseVolume
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+
+XF86AudioLowerVolume
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+
+XF86AudioMute
+	wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+
+XF86AudioMicMute
+	wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+# --- Brillo (con brightnessctl) ---
+XF86MonBrightnessUp
+	brightnessctl set +5%
+
+XF86MonBrightnessDown
+	brightnessctl set 5%-
+
+# --- Reproductor multimedia ---
+XF86AudioPlay
+	playerctl play-pause
+
+XF86AudioNext
+	playerctl next
+
+XF86AudioPrev
+	playerctl previous
+
+XF86AudioStop
+	playerctl stop
+
+# --- Lock screen ---
+super + Escape
+	betterlockscreen -l blur
+
+# --- Bspwm: navegación de ventanas (vim-like) ---
+super + {h,j,k,l}
+	bspc node -f {west,south,north,east}
+
+super + shift + {h,j,k,l}
+	bspc node -s {west,south,north,east}
+
+# --- Bspwm: moverse entre escritorios ---
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+super + Tab
+	bspc desktop -f last
+
+# --- Bspwm: preselección ---
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+super + ctrl + shift + {h,j,k,l}
+	bspc node -p cancel
+
+# --- Bspwm: estados de ventana ---
+super + m
+	bspc node -f focused -t fullscreen
+
+super + shift + m
+	bspc desktop -l next
+
+super + t
+	bspc node -t tiled
+
+super + shift + t
+	bspc node -t pseudo_tiled
+
+super + f
+	bspc node -t floating
+
+super + shift + f
+	bspc node -t fullscreen
+
+# --- Bspwm: matar cerrar ---
+super + q
+	bspc node -c
+
+super + shift + q
+	bspc quit
+
+# --- Bspwm: espacio ---
+super + space
+	bspc node -t floating; bspc node -f focused
+
+# --- Recargar bspwm y sxhkd ---
+super + Escape
+	bspc wm -r
+	pkill -USR1 -x sxhkd
+	notify-send "sxhkd" "Configuración recargada"
+
+# --- Recargar polybar ---
+super + shift + r
+	~/.config/polybar/launch.sh
+
+# --- Wallpaper aleatorio con pywal ---
+super + ctrl + w
+	wal -i ~/Pictures/Wallpapers -n && feh --bg-fill "$(< "${HOME}/.cache/wal/wal")"
+
+# --- Cambiar tema de colores con pywal ---
+super + ctrl + s
+	wal --cols16 -i ~/Pictures/Wallpapers -n && feh --bg-fill "$(< "${HOME}/.cache/wal/wal")" && pywalfox update 2>/dev/null; notify-send "pywal" "Colores actualizados"
+
+# --- Menú de poder ---
+super + shift + Escape
+	rofi -show power-menu -modi power-menu:rofi-power-menu -config ~/.config/rofi/config.rasi

@@ -1,0 +1,80 @@
+# ============================================================
+# dunstrc - Tokyo Night Edition
+# ============================================================
+
+[global]
+    monitor = 0
+    follow = mouse
+    width = 350
+    height = 200
+    origin = top-right
+    offset = 15x44
+    scale = 0
+    notification_limit = 10
+
+    progress_bar = true
+    progress_bar_height = 8
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 300
+
+    corner_radius = 12
+    rounded_large = true
+    separator_height = 2
+    padding = 16
+    horizontal_padding = 16
+    text_icon_padding = 8
+    frame_width = 1
+    frame_color = "#24283b"
+
+    gap_size = 8
+
+    separator_color = frame
+
+    sort = yes
+    idle_threshold = 120
+    font = "JetBrainsMono Nerd Font 10"
+    line_height = 4
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = -1
+    ellipsize = middle
+    ignore_newline = false
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = yes
+
+    enable_recursive_icon_lookup = true
+    icon_theme = "Papirus-Dark"
+    icon_path = "/usr/share/icons/Papirus-Dark/16x16/status/:/usr/share/icons/Papirus-Dark/16x16/devices/"
+    min_icon_size = 32
+    max_icon_size = 64
+
+    sticky_history = yes
+    history_length = 20
+    dmenu = /usr/bin/rofi -dmenu -config ~/.config/rofi/config.rasi -p dunst
+    browser = /usr/bin/firefox
+    mouse_left_click = close_current
+    mouse_middle_click = do_action
+    mouse_right_click = close_all
+
+[urgency_low]
+    background = "#24283b"
+    foreground = "#c0caf5"
+    timeout = 5
+    frame_color = "#3b4261"
+
+[urgency_normal]
+    background = "#1a1b26"
+    foreground = "#c0caf5"
+    timeout = 7
+    frame_color = "#7aa2f7"
+
+[urgency_critical]
+    background = "#1a1b26"
+    foreground = "#f7768e"
+    timeout = 0
+    frame_color = "#f7768e"
+    icon = /usr/share/icons/Papirus-Dark/16x16/status/dialog-warning.svg

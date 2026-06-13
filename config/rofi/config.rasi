@@ -1,0 +1,171 @@
+/* ============================================================
+   Rofi config - Tokyo Night Edition
+   ============================================================ */
+
+* {
+    font:                    "JetBrainsMono Nerd Font 11";
+
+    bg:                      #1a1b26;
+    bg-alt:                  #24283b;
+    bg-hl:                   #2f3549;
+    fg:                      #c0caf5;
+    fg-alt:                  #565f89;
+    active:                  #7aa2f7;
+    urgent:                  #f7768e;
+    purple:                  #bb9af7;
+
+    selected-bg:             @active;
+    selected-fg:             @bg;
+
+    border-colour:           @bg-alt;
+    scrollbar-colour:        @active;
+}
+
+window {
+    transparency:            "real";
+    background-color:        @bg;
+    text-color:              @fg;
+    border-radius:           12;
+    border:                  1;
+    border-color:            @border-colour;
+    padding:                 6;
+    location:                center;
+    anchor:                  center;
+    fullscreen:              false;
+    width:                   500;
+    x-offset:                0;
+    y-offset:                0;
+    enabled:                 true;
+}
+
+mainbox {
+    enabled:                 true;
+    spacing:                 6;
+    padding:                 12;
+    background-color:        transparent;
+    children:                [ "inputbar", "listview" ];
+}
+
+inputbar {
+    enabled:                 true;
+    spacing:                 6;
+    padding:                 6;
+    background-color:        @bg-alt;
+    text-color:              @fg;
+    border-radius:           8;
+    children:                [ "textbox-prompt-colon", "entry", "case-indicator" ];
+}
+
+textbox-prompt-colon {
+    enabled:                 true;
+    expand:                  false;
+    str:                     "  ";
+    text-color:              @active;
+}
+
+entry {
+    enabled:                 true;
+    text-color:              @fg;
+    cursor:                  "blink";
+    placeholder:             "Buscar...";
+    placeholder-color:       @fg-alt;
+}
+
+case-indicator {
+    enabled:                 true;
+    text-color:              @fg-alt;
+}
+
+listview {
+    enabled:                 true;
+    columns:                 1;
+    lines:                   8;
+    cycle:                   true;
+    dynamic:                 true;
+    scrollbar:               true;
+    scrollbar-width:         4;
+    scrollbar-color:         @scrollbar-colour;
+    spacing:                 4;
+    padding:                 0;
+    background-color:        transparent;
+    layout:                  vertical;
+}
+
+element {
+    enabled:                 true;
+    spacing:                 6;
+    padding:                 6;
+    background-color:        transparent;
+    text-color:              @fg;
+    border-radius:           8;
+}
+
+element normal.normal {
+    background-color:        transparent;
+    text-color:              @fg;
+}
+
+element normal.urgent {
+    background-color:        transparent;
+    text-color:              @urgent;
+}
+
+element normal.active {
+    background-color:        transparent;
+    text-color:              @active;
+}
+
+element selected.normal {
+    background-color:        @selected-bg;
+    text-color:              @selected-fg;
+}
+
+element selected.urgent {
+    background-color:        @urgent;
+    text-color:              @selected-fg;
+}
+
+element selected.active {
+    background-color:        @active;
+    text-color:              @selected-fg;
+}
+
+element alternate.normal {
+    background-color:        transparent;
+    text-color:              @fg;
+}
+
+element-icon {
+    background-color:        transparent;
+    text-color:              inherit;
+    size:                    22px;
+    cursor:                  inherit;
+}
+
+element-text {
+    background-color:        transparent;
+    text-color:              inherit;
+    highlight:               inherit;
+    cursor:                  inherit;
+    vertical-align:          0.5;
+    horizontal-align:        0.0;
+}
+
+button {
+    background-color:        @bg-alt;
+    text-color:              @fg;
+    border-radius:           8;
+    padding:                 6;
+}
+
+button selected {
+    background-color:        @active;
+    text-color:              @selected-fg;
+}
+
+error-message {
+    background-color:        @bg;
+    text-color:              @urgent;
+    border-radius:           12;
+    padding:                 12;
+}
