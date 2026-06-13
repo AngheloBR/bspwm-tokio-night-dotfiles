@@ -7,12 +7,21 @@
 #     ██║   ██║   ██║██╔═██╗   ╚██╔╝  ██║   ██║    ██║╚██╗██║██║██║   ██║██╔══██║   ██║
 #     ██║   ╚██████╔╝██║  ██╗   ██║   ╚██████╔╝    ██║ ╚████║██║╚██████╔╝██║  ██║   ██║
 #     ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝     ╚═╝  ╚═══╝╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝
-#
+# ============================================================
 #  Tokyo Night Dotfiles Installer
 #  bspwm + polybar + picom + dunst + rofi + ghostty
-#  ============================================================
-#  STYX x AngheloBR
-#  ============================================================
+# ============================================================
+#    ███████╗████████╗██╗   ██╗██╗  ██╗
+#    ██╔══██╗╚══██╔══╝╚██╗ ██╔╝██║  ██║
+#    ███████║   ██║    ╚████╔╝ ███████║
+#    ██╔══██║   ██║     ╚██╔╝  ██╔══██║
+#    ██║  ██║   ██║      ██║   ██║  ██║       ███╗   ██╗██╗ ██████╗ ██╗  ██╗████████╗
+#    ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚═╝  ╚═╝       ╚██╗ ██╔╝██║██╔════╝ ██║  ██║╚══██╔══╝
+#                                                ╚████╔╝ ██║██║     ███████║   ██║
+#                                                 ╚═══╝  ╚═╝╚═╝     ╚══════╝   ╚═╝
+# ============================================================
+#  STYX x AngheloBR  -  Tokyo Night Dotfiles
+# ============================================================
 
 set -euo pipefail
 
@@ -45,8 +54,21 @@ print_banner() {
   echo '     ██║   ╚██████╔╝██║  ██╗   ██║   ╚██████╔╝    ██║ ╚████║██║╚██████╔╝██║  ██║   ██║'
   echo '     ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝     ╚═╝  ╚═══╝╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝'
   echo -e "${NC}"
-  echo -e "${PURPLE}  Tokyo Night Dotfiles - bspwm Edition${NC}"
-  echo -e "${CYAN}  STYX x AngheloBR${NC}"
+  echo -e "${PURPLE}  ─────────────────────────────────────────────────${NC}"
+  echo -e "${CYAN}    ███████╗████████╗██╗   ██╗██╗  ██╗              ${NC}"
+  echo -e "${CYAN}    ██╔══██╗╚══██╔══╝╚██╗ ██╔╝██║  ██║              ${NC}"
+  echo -e "${CYAN}    ███████║   ██║    ╚████╔╝ ███████║              ${NC}"
+  echo -e "${CYAN}    ██╔══██║   ██║     ╚██╔╝  ██╔══██║              ${NC}"
+  echo -e "${CYAN}    ██║  ██║   ██║      ██║   ██║  ██║  ███╗   ██╗██╗ ██████╗ ██╗  ██╗████████╗"
+  echo -e "${CYAN}    ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚═╝  ╚═╝  ╚██╗ ██╔╝██║██╔════╝ ██║  ██║╚══██╔══╝"
+  echo -e "${CYAN}                                           ╚████╔╝ ██║██║     ███████║   ██║"
+  echo -e "${CYAN}                                            ╚═══╝  ╚═╝╚═╝     ╚══════╝   ╚═╝"
+  echo -e "${NC}"
+  echo -e "${PURPLE}  ─────────────────────────────────────────────────${NC}"
+  echo -e "${YELLOW}           STYX x AngheloBR  -  Tokyo Night Dotfiles${NC}"
+  echo -e "${PURPLE}  ─────────────────────────────────────────────────${NC}"
+  echo ""
+  echo -e "${GREEN}  Tokyo Night Dotfiles - bspwm Edition${NC}"
   echo ""
   echo -e "${YELLOW}  Directorio: $DOTFILES_DIR${NC}"
   echo ""
@@ -283,9 +305,21 @@ fi
 section "¡Instalación completada!"
 
 echo -e "${GREEN}"
-echo "  Tokyo Night bspwm dotfiles instalados correctamente"
-echo ""
+echo "  ███████╗████████╗██╗   ██╗██╗  ██╗"
+echo "  ██╔══██╗╚══██╔══╝╚██╗ ██╔╝██║  ██║"
+echo "  ███████║   ██║    ╚████╔╝ ███████║"
+echo "  ██╔══██║   ██║     ╚██╔╝  ██╔══██║"
+echo "  ██║  ██║   ██║      ██║   ██║  ██║  ███╗   ██╗██╗ ██████╗ ██╗  ██╗████████╗"
+echo "  ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚═╝  ╚═╝  ╚██╗ ██╔╝██║██╔════╝ ██║  ██║╚══██╔══╝"
+echo "                                       ╚████╔╝ ██║██║     ███████║   ██║"
+echo "                                        ╚═══╝  ╚═╝╚═╝     ╚══════╝   ╚═╝"
 echo -e "${NC}"
+echo -e "${PURPLE}  ─────────────────────────────────────────────────${NC}"
+echo -e "${YELLOW}           STYX x AngheloBR  -  Tokyo Night Dotfiles${NC}"
+echo -e "${PURPLE}  ─────────────────────────────────────────────────${NC}"
+echo ""
+echo -e "${GREEN}  Tokyo Night bspwm dotfiles instalados correctamente${NC}"
+echo ""
 echo -e "${YELLOW}  Pasos siguientes:${NC}"
 echo ""
 echo -e "  1. ${CYAN}Recargar bspwm:${NC}  ${PURPLE}Super + Escape${NC}"
@@ -303,6 +337,6 @@ echo -e "     ${PURPLE}Super + Q${NC}        → Cerrar ventana"
 echo -e "     ${PURPLE}Super + [hjkl]${NC}    → Navegar ventanas"
 echo -e "     ${PURPLE}Super + Shift + [1-9]${NC} → Mover a escritorio"
 echo ""
-echo -e "${GREEN}  ¡Disfruta tu Tokyo Night! 🌙${NC}"
+echo -e "${GREEN}  ¡Disfruta tu Tokyo Night!${NC}"
 echo -e "${PURPLE}  STYX x AngheloBR${NC}"
 echo ""
