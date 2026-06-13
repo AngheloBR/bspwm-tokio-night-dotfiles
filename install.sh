@@ -94,7 +94,7 @@ PKGS=(
   # Temas
   papirus-icon-theme kvantum
   # Utilidades
-  btop flameshot betterlockscreen neovim
+  btop flameshot betterlockscreen neovim cava ranger wget
 )
 
 AUR_PKGS=()
@@ -233,6 +233,10 @@ CONFIG_MAP=(
   "kvantum:Kvantum"
   "nvim:nvim"
   "zsh:zsh"
+  "firefox:firefox"
+  "lightdm:lightdm"
+  "cava:cava"
+  "ranger:ranger"
 )
 
 for entry in "${CONFIG_MAP[@]}"; do
@@ -258,6 +262,10 @@ cp "$SCRIPTS_DIR/change-wallpaper.sh" "$HOME/.local/bin/change-wallpaper"
 chmod +x "$HOME/.local/bin/change-wallpaper"
 cp "$SCRIPTS_DIR/setup-pywalfox.sh" "$HOME/.local/bin/setup-pywalfox"
 chmod +x "$HOME/.local/bin/setup-pywalfox"
+cp "$SCRIPTS_DIR/auto-wallpaper.sh" "$HOME/.local/bin/auto-wallpaper"
+chmod +x "$HOME/.local/bin/auto-wallpaper"
+cp "$SCRIPTS_DIR/download-wallpapers.sh" "$HOME/.local/bin/download-wallpapers"
+chmod +x "$HOME/.local/bin/download-wallpapers"
 log "Scripts instalados en ~/.local/bin/"
 
 # ============================================================
@@ -333,6 +341,40 @@ if command -v fastfetch &>/dev/null; then
   echo "  Para probar: fastfetch --config ~/.config/fastfetch/config.jsonc"
 fi
 
+# Ranger
+if command -v ranger &>/dev/null; then
+  log "ranger configurado con Tokyo Night"
+  echo "  (ranger es un file manager de terminal con previews de imágenes)"
+fi
+
+# Cava
+if command -v cava &>/dev/null; then
+  log "cava Tokyo Night configurado"
+  echo "  Para probar: cava"
+fi
+
+# Firefox
+log "Firefox userChrome.css Tokyo Night (macOS style) instalado"
+echo "  Para activar:"
+echo "  1. about:config → toolkit.legacyUserProfileCustomizations.stylesheets = true"
+echo "  2. Copiar config/firefox/userChrome.css a ~/.mozilla/firefox/*.default-release/chrome/"
+
+# LightDM
+log "LightDM theme Tokyo Night (macOS style) instalado"
+echo "  Para activar lightdm-gtk-greeter:"
+echo "    sudo cp config/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/"
+echo "  Para activar lightdm-webkit2-greeter:"
+echo "    sudo cp -r config/lightdm/webkit-theme /usr/share/lightdm-webkit/themes/tokyo-night-macos"
+echo "    y configurar /etc/lightdm/lightdm-webkit2-greeter.conf"
+
+# auto-wallpaper
+log "auto-wallpaper script instalado"
+echo "  Uso: auto-wallpaper.sh ~/Pictures/Wallpapers 30"
+
+# download-wallpapers
+log "download-wallpapers script instalado"
+echo "  Uso: download-wallpapers.sh ~/Pictures/Wallpapers"
+
 # Neovim hint
 if command -v nvim &>/dev/null; then
   log "Neovim: se copió hint de colorscheme Tokyo Night"
@@ -375,11 +417,12 @@ echo ""
 echo -e "${GREEN}  Tokyo Night bspwm dotfiles instalados correctamente${NC}"
 echo ""
 echo -e "${YELLOW}  Componentes instalados:${NC}"
-echo -e "  ${CYAN}✓${NC} bspwm + sxhkd     ${CYAN}✓${NC} polybar        ${CYAN}✓${NC} picom (animaciones)"
-echo -e "  ${CYAN}✓${NC} dunst             ${CYAN}✓${NC} rofi           ${CYAN}✓${NC} ghostty"
-echo -e "  ${CYAN}✓${NC} fastfetch         ${CYAN}✓${NC} btop           ${CYAN}✓${NC} betterlockscreen"
-echo -e "  ${CYAN}✓${NC} GTK/Kvantum       ${CYAN}✓${NC} Neovim hint    ${CYAN}✓${NC} zsh/p10k"
-echo -e "  ${CYAN}✓${NC} pywal (Material You)  ${CYAN}✓${NC} Firefox (pywalfox)"
+echo -e "  ${CYAN}✓${NC} bspwm + sxhkd      ${CYAN}✓${NC} polybar        ${CYAN}✓${NC} picom"
+echo -e "  ${CYAN}✓${NC} dunst              ${CYAN}✓${NC} rofi           ${CYAN}✓${NC} ghostty"
+echo -e "  ${CYAN}✓${NC} fastfetch          ${CYAN}✓${NC} btop           ${CYAN}✓${NC} lockscreen"
+echo -e "  ${CYAN}✓${NC} GTK/Kvantum        ${CYAN}✓${NC} nvim           ${CYAN}✓${NC} zsh/p10k"
+echo -e "  ${CYAN}✓${NC} Firefox macOS      ${CYAN}✓${NC} LightDM macOS  ${CYAN}✓${NC} cava"
+echo -e "  ${CYAN}✓${NC} ranger             ${CYAN}✓${NC} auto-wallpaper ${CYAN}✓${NC} pywal+pywalfox"
 echo ""
 echo -e "${YELLOW}  Pasos siguientes:${NC}"
 echo ""
@@ -391,9 +434,19 @@ echo ""
 echo -e "  3. ${CYAN}Cambiar wallpaper + colores:${NC}"
 echo -e "     ${PURPLE}change-wallpaper -r ~/Pictures/Wallpapers${NC}"
 echo ""
-echo -e "  4. ${CYAN}Pantalla de bloqueo:${NC}  ${PURPLE}Super + Escape${NC}"
+echo -e "  4. ${CYAN}Firefox Tokyo Night:${NC}"
+echo -e "     Copiar ${PURPLE}config/firefox/userChrome.css${NC} a tu perfil de Firefox"
 echo ""
-echo -e "  5. ${CYAN}Atajos clave:${NC}"
+echo -e "  5. ${CYAN}LightDM macOS login:${NC}"
+echo -e "     ${PURPLE}sudo cp config/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/${NC}"
+echo ""
+echo -e "  6. ${CYAN}Descargar wallpapers:${NC}  ${PURPLE}download-wallpapers${NC}"
+echo ""
+echo -e "  7. ${CYAN}Auto-wallpaper:${NC}  ${PURPLE}auto-wallpaper ~/Pictures/Wallpapers 15${NC}"
+echo ""
+echo -e "  8. ${CYAN}Pantalla de bloqueo:${NC}  ${PURPLE}Super + Escape${NC}"
+echo ""
+echo -e "  9. ${CYAN}Atajos clave:${NC}"
 echo -e "     ${PURPLE}Super + D${NC}       → Rofi (lanzador)"
 echo -e "     ${PURPLE}Super + Enter${NC}    → Ghostty (terminal)"
 echo -e "     ${PURPLE}Super + W${NC}        → Rofi (ventanas)"

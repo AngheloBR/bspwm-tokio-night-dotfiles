@@ -33,6 +33,12 @@ Configuración completa de **bspwm** con tema **Tokyo Night**, animaciones suave
 | **betterlockscreen** | `config/betterlockscreen/betterlockscreenrc` | Pantalla de bloqueo Tokyo Night |
 | **nvim** | `config/nvim/lua/config/colorscheme.lua` | Hint colorscheme Tokyo Night para LazyVim |
 | **zsh/p10k** | `config/zsh/p10k-tokyo-night.zsh` | Powerlevel10k con colores Tokyo Night |
+| **Firefox** | `config/firefox/userChrome.css` | macOS style + Tokyo Night |
+| **LightDM** | `config/lightdm/` | Pantalla de login macOS Tokyo Night |
+| **cava** | `config/cava/config` | Visualizador de audio Tokyo Night |
+| **ranger** | `config/ranger/` | File manager terminal con Tokyo Night |
+| **wallpapers** | `scripts/download-wallpapers.sh` | Descarga wallpapers oficiales Tokyo Night |
+| **auto-wallpaper** | `scripts/auto-wallpaper.sh` | Cambio automático de wallpaper cada N min |
 
 ---
 
@@ -215,6 +221,114 @@ source ~/.p10k.zsh
 
 ---
 
+---
+
+## 🌐 Firefox macOS Tokyo Night
+
+Estilo macOS unificado con colores Tokyo Night. Incluye:
+
+- Pestañas compactas estilo macOS con borde redondeado
+- Pestaña activa con glow azul (`#7aa2f7`)
+- Botones de tráfico macOS (rojo, amarillo, verde)
+- Barra de URL con borde sutil y focus glow
+- Scrollbar delgado con colores Tokyo Night
+- Menús y popups redondeados
+
+### Activar:
+
+```bash
+# 1. about:config → toolkit.legacyUserProfileCustomizations.stylesheets = true
+# 2. Copiar userChrome.css al perfil:
+cp config/firefox/userChrome.css ~/.mozilla/firefox/*.default-release/chrome/
+cp config/firefox/userChrome-tokyo-night.css ~/.mozilla/firefox/*.default-release/chrome/
+cp config/firefox/user.js ~/.mozilla/firefox/*.default-release/
+```
+
+---
+
+## 🔐 LightDM macOS Tokyo Night
+
+Pantalla de login estilo macOS con:
+
+- Fondo borroso (blur)
+- Panel centrado con glassmorphism
+- Reloj grande con formato HH:MM
+- Avatar circular con glow
+- Input de contraseña minimalista
+- Selector de sesión
+
+### Activar (lightdm-gtk-greeter):
+
+```bash
+sudo cp config/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/
+```
+
+### Activar (lightdm-webkit2-greeter):
+
+```bash
+sudo mkdir -p /usr/share/lightdm-webkit/themes/tokyo-night-macos
+sudo cp -r config/lightdm/webkit-theme/* /usr/share/lightdm-webkit/themes/tokyo-night-macos/
+sudo nano /etc/lightdm/lightdm-webkit2-greeter.conf
+# → webkit-theme = tokyo-night-macos
+```
+
+---
+
+## 🎵 cava (visualizador de audio)
+
+```bash
+cava
+```
+
+Muestra barras con gradiente Tokyo Night: rojo → naranja → amarillo → verde → cian → azul → púrpura.
+
+---
+
+## 📂 ranger (file manager de terminal)
+
+**¿Qué es?** Similar a Thunar pero en terminal. Navegas con teclas (hjkl), tiene preview de imágenes, videos, PDFs, etc.
+
+```bash
+ranger
+```
+
+Atajos:
+- `hjkl` → navegar
+- `i` → preview de archivo
+- `qh` → mostrar/ocultar archivos ocultos
+- `S` → abrir shell en el directorio actual
+
+---
+
+## 🖼️ Wallpapers Tokyo Night
+
+```bash
+# Descargar wallpapers oficiales
+download-wallpapers ~/Pictures/Wallpapers
+
+# Usar uno como fondo
+change-wallpaper -r ~/Pictures/Wallpapers
+```
+
+---
+
+## 🔄 Auto-wallpaper
+
+Cambia el wallpaper automáticamente cada N minutos:
+
+```bash
+# Cada 15 minutos
+auto-wallpaper ~/Pictures/Wallpapers 15
+
+# Cada 30 minutos (default)
+auto-wallpaper ~/Pictures/Wallpapers
+
+# Detener
+pkill -f auto-wallpaper
+```
+
+---
+
 ## 📁 Estructura completa
 
 ```
@@ -235,13 +349,19 @@ bspwm-tokio-night-dotfiles/
 │   ├── btop/{btop.conf, themes/tokyo-night.theme}
 │   ├── kvantum/kvantum.kvconfig
 │   ├── nvim/lua/config/colorscheme.lua
-│   └── zsh/p10k-tokyo-night.zsh
+│   ├── zsh/p10k-tokyo-night.zsh
+│   ├── firefox/{userChrome.css, userChrome-tokyo-night.css, user.js}
+│   ├── lightdm/{lightdm-gtk-greeter.conf, lightdm-webkit2-greeter.conf, webkit-theme/}
+│   ├── cava/config
+│   └── ranger/{rc.conf, scope.sh, colorschemes/tokyo-night.py}
 ├── themes/
 │   └── colors-tokyo-night.sh
 ├── scripts/
 │   ├── change-wallpaper.sh
 │   ├── setup-pywalfox.sh
-│   └── install-picom-animations.sh
+│   ├── install-picom-animations.sh
+│   ├── auto-wallpaper.sh
+│   └── download-wallpapers.sh
 └── wallpapers/
 ```
 

@@ -1,0 +1,8 @@
+/* ============================================================
+   Firefox userChrome.css - Tokyo Night (macOS style)
+   ============================================================
+   Colocar en: ~/.mozilla/firefox/*.default-release/chrome/userChrome.css
+   Activar en about:config: toolkit.legacyUserProfileCustomizations.stylesheets = true
+   ============================================================ */
+
+@import url("userChrome-tokyo-night.css");

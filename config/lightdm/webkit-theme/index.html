@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokyo Night - macOS Login</title>
+<style>
+  /* ============================================================
+     LightDM WebKit Greeter - Tokyo Night macOS Style
+     ============================================================ */
+
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #1a1b26;
+    --surface: rgba(36,40,59,0.85);
+    --surface-hover: rgba(47,53,73,0.9);
+    --text: #c0caf5;
+    --text-dim: #565f89;
+    --accent: #7aa2f7;
+    --accent-glow: rgba(122,162,247,0.3);
+    --purple: #bb9af7;
+    --green: #9ece6a;
+    --red: #f7768e;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Background image */
+  .background {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('../background.jpg') center/cover no-repeat;
+    filter: blur(8px) brightness(0.5);
+    transform: scale(1.05);
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    width: 420px;
+    padding: 40px;
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  /* Clock */
+  .clock {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .time {
+    font-size: 64px;
+    font-weight: 300;
+    letter-spacing: -2px;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .date {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-dim);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Avatar */
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: var(--bg);
+    font-weight: 600;
+    box-shadow: 0 0 30px var(--accent-glow);
+    margin-bottom: 8px;
+  }
+
+  /* Username */
+  .username {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  /* Input */
+  .password-container {
+    width: 100%;
+    position: relative;
+  }
+
+  input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.3s ease;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+
+  input[type="password"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  input[type="password"]::placeholder {
+    color: var(--text-dim);
+    letter-spacing: normal;
+  }
+
+  /* Caps lock indicator */
+  .caps-hint {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--yellow);
+    font-size: 12px;
+    display: none;
+  }
+
+  /* Buttons */
+  .actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text);
+    background: var(--surface-hover);
+  }
+
+  .btn:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-1px);
+  }
+
+  .btn-login {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 600;
+  }
+
+  .btn-login:hover {
+    background: #89b4f8;
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+
+  /* Session selector */
+  .session-selector {
+    width: 100%;
+    padding: 10px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* Error message */
+  .error {
+    color: var(--red);
+    font-size: 13px;
+    text-align: center;
+    min-height: 20px;
+  }
+
+  /* Loading */
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text-dim);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 8px auto;
+    display: none;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Footer */
+  .footer {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-align: center;
+    opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+<div class="background"></div>
+
+<div class="container">
+  <div class="clock">
+    <div class="time" id="clock-time">00:00</div>
+    <div class="date" id="clock-date">Loading...</div>
+  </div>
+
+  <div class="avatar" id="avatar">A</div>
+  <div class="username" id="username">anghelo</div>
+  <div class="error" id="error"></div>
+
+  <div class="password-container">
+    <input type="password" id="password" placeholder="Contraseña" autocomplete="off">
+    <span class="caps-hint" id="caps-hint">⇪</span>
+  </div>
+
+  <div class="spinner" id="spinner"></div>
+
+  <div class="actions">
+    <select class="session-selector" id="session">
+      <option value="bspwm">bspwm</option>
+      <option value="xfce">XFCE</option>
+      <option value="i3">i3</option>
+    </select>
+    <button class="btn btn-login" id="login-btn">Iniciar sesión</button>
+  </div>
+
+  <div class="footer">Tokyo Night · Styx</div>
+</div>
+
+<script>
+  // Clock update
+  function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('clock-time').textContent = h + ':' + m;
+
+    const days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+    const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    document.getElementById('clock-date').textContent = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Caps lock indicator
+  document.getElementById('password').addEventListener('keydown', function(e) {
+    document.getElementById('caps-hint').style.display = e.getModifierState('CapsLock') ? 'block' : 'none';
+  });
+
+  // Login button
+  document.getElementById('login-btn').addEventListener('click', function() {
+    const pwd = document.getElementById('password');
+    const spinner = document.getElementById('spinner');
+    const error = document.getElementById('error');
+
+    if (!pwd.value) {
+      error.textContent = 'Ingresa tu contraseña';
+      return;
+    }
+
+    spinner.style.display = 'block';
+    error.textContent = '';
+    pwd.disabled = true;
+
+    // lightdm webkit authentication
+    if (typeof lightdm !== 'undefined') {
+      lightdm.authenticate(lightdm.users[0].name);
+      lightdm.start_authentication();
+      lightdm.provide_secret(pwd.value);
+    }
+  });
+
+  // Enter to submit
+  document.getElementById('password').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      document.getElementById('login-btn').click();
+    }
+  });
+
+  // Focus password on load
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      document.getElementById('password').focus();
+    }, 500);
+  });
+</script>
+</body>
+</html>

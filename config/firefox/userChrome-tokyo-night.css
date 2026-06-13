@@ -1,0 +1,269 @@
+/* ============================================================
+   Firefox Tokyo Night Theme - macOS Style
+   ============================================================
+   Basado en: Tokyo Night color palette
+   Estilo: macOS ventana unificada, pestañas compactas
+   ============================================================ */
+
+:root {
+  /* Tokyo Night palette */
+  --tn-bg: #1a1b26;
+  --tn-bg-alt: #24283b;
+  --tn-bg-hl: #2f3549;
+  --tn-fg: #c0caf5;
+  --tn-fg-dim: #565f89;
+  --tn-blue: #7aa2f7;
+  --tn-purple: #bb9af7;
+  --tn-green: #9ece6a;
+  --tn-red: #f7768e;
+  --tn-yellow: #e0af68;
+  --tn-cyan: #7dcfff;
+
+  /* macOS style variables */
+  --tab-height: 32px;
+  --tab-radius: 6px;
+  --tab-margin: 2px;
+}
+
+/* === Background principal === */
+#navigator-toolbox,
+#main-window,
+#TabsToolbar,
+#nav-bar,
+#urlbar,
+#urlbar-background,
+.searchbar-textbox,
+#searchbar {
+  background: var(--tn-bg) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* === Tabs toolbar (macOS unified) === */
+#TabsToolbar {
+  margin-bottom: 0 !important;
+  padding: 4px 4px 0 4px !important;
+}
+
+/* === Tab bar === */
+#tabbrowser-tabs {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.tabbrowser-tab {
+  font-size: 12px !important;
+  min-height: var(--tab-height) !important;
+  max-height: var(--tab-height) !important;
+  margin: 0 var(--tab-margin) !important;
+  border-radius: var(--tab-radius) !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Tab background */
+.tabbrowser-tab .tab-stack {
+  border-radius: var(--tab-radius) !important;
+}
+
+.tabbrowser-tab .tab-background {
+  border-radius: var(--tab-radius) !important;
+  background: var(--tn-bg-alt) !important;
+  border: none !important;
+}
+
+/* Selected tab */
+.tabbrowser-tab[selected] .tab-background {
+  background: var(--tn-blue) !important;
+  box-shadow: 0 0 12px rgba(122, 162, 247, 0.3) !important;
+}
+
+.tabbrowser-tab[selected] .tab-text {
+  color: var(--tn-bg) !important;
+  font-weight: 600 !important;
+}
+
+/* Tab hover */
+.tabbrowser-tab:hover .tab-background {
+  background: var(--tn-bg-hl) !important;
+}
+
+.tabbrowser-tab[selected]:hover .tab-background {
+  background: var(--tn-blue) !important;
+}
+
+/* Tab text */
+.tab-text {
+  color: var(--tn-fg) !important;
+  font-weight: 400 !important;
+}
+
+.tab-secondary-label {
+  color: var(--tn-fg-dim) !important;
+}
+
+/* Tab close button */
+.tab-close-button {
+  fill: var(--tn-fg-dim) !important;
+  border-radius: 50% !important;
+  transition: all 0.2s ease !important;
+}
+
+.tab-close-button:hover {
+  fill: var(--tn-red) !important;
+  background: rgba(247, 118, 142, 0.2) !important;
+}
+
+/* === URL bar === */
+#urlbar {
+  min-height: 30px !important;
+  margin: 2px 6px !important;
+  border-radius: 8px !important;
+}
+
+#urlbar-background {
+  background: var(--tn-bg-alt) !important;
+  border: 1px solid var(--tn-bg-hl) !important;
+  border-radius: 8px !important;
+}
+
+#urlbar[focused] #urlbar-background {
+  border-color: var(--tn-blue) !important;
+  box-shadow: 0 0 0 2px rgba(122, 162, 247, 0.2) !important;
+}
+
+#urlbar-input {
+  color: var(--tn-fg) !important;
+}
+
+.urlbar-page-action,
+#identity-box {
+  fill: var(--tn-fg-dim) !important;
+}
+
+/* === Navigation bar === */
+#nav-bar {
+  padding: 0 4px !important;
+  border-bottom: 1px solid var(--tn-bg-hl) !important;
+}
+
+/* Toolbar buttons */
+toolbarbutton,
+#nav-bar toolbarbutton {
+  fill: var(--tn-fg-dim) !important;
+  transition: all 0.2s ease !important;
+}
+
+toolbarbutton:hover,
+#nav-bar toolbarbutton:hover {
+  fill: var(--tn-fg) !important;
+  background: var(--tn-bg-hl) !important;
+}
+
+/* === Bookmarks bar === */
+#PersonalToolbar {
+  background: var(--tn-bg) !important;
+  border-top: 1px solid var(--tn-bg-hl) !important;
+  padding: 2px 4px !important;
+}
+
+#PersonalToolbar toolbarbutton {
+  color: var(--tn-fg-dim) !important;
+  font-size: 11px !important;
+}
+
+#PersonalToolbar toolbarbutton:hover {
+  color: var(--tn-fg) !important;
+  background: var(--tn-bg-hl) !important;
+  border-radius: 4px !important;
+}
+
+/* === Dropdown / Popups === */
+menupopup,
+.popup,
+#urlbar-results,
+.panel-arrowcontent {
+  background: var(--tn-bg-alt) !important;
+  border: 1px solid var(--tn-bg-hl) !important;
+  border-radius: 8px !important;
+  color: var(--tn-fg) !important;
+}
+
+.urlbarView-row:hover {
+  background: var(--tn-bg-hl) !important;
+}
+
+.urlbarView-row[selected] {
+  background: var(--tn-blue) !important;
+  color: var(--tn-bg) !important;
+}
+
+/* === Sidebar === */
+#sidebar-box {
+  background: var(--tn-bg) !important;
+  border-right: 1px solid var(--tn-bg-hl) !important;
+}
+
+#sidebar-header {
+  background: var(--tn-bg-alt) !important;
+  border-bottom: 1px solid var(--tn-bg-hl) !important;
+}
+
+/* === Scrollbar === */
+* {
+  scrollbar-color: var(--tn-bg-hl) transparent !important;
+  scrollbar-width: thin !important;
+}
+
+/* === macOS style traffic light buttons === */
+.titlebar-buttonbox-container {
+  margin-left: 4px !important;
+}
+
+.titlebar-button {
+  padding: 4px !important;
+}
+
+.titlebar-min,
+.titlebar-max,
+.titlebar-close {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  margin: 4px !important;
+  transition: all 0.2s ease !important;
+}
+
+/* macOS traffic light colors */
+.titlebar-close {
+  background: #ff5f57 !important;
+}
+.titlebar-min {
+  background: #febc2e !important;
+}
+.titlebar-max {
+  background: #28c840 !important;
+}
+
+/* Hide native titlebar for compact look */
+#titlebar {
+  appearance: none !important;
+}
+
+/* === Find bar === */
+.findbar-container {
+  background: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border: none !important;
+}
+
+.findbar-textbox {
+  background: var(--tn-bg) !important;
+  color: var(--tn-fg) !important;
+  border: 1px solid var(--tn-bg-hl) !important;
+  border-radius: 4px !important;
+}
+
+/* === Video player controls === */
+pip-wrapper {
+  background: rgba(26, 27, 38, 0.9) !important;
+}
