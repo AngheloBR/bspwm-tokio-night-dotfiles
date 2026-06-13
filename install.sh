@@ -89,7 +89,7 @@ section "Verificando dependencias"
 
 PKGS=(
   # Core
-  bspwm sxhkd polybar picom dunst rofi
+  xorg-server xorg-xinit bspwm sxhkd polybar picom dunst rofi
   # Herramientas
   feh brightnessctl playerctl fastfetch
   # Audio
@@ -102,7 +102,7 @@ PKGS=(
   btop flameshot neovim cava ranger thunar wget bat
   zathura zathura-pdf-poppler imv wl-clipboard xclip
   nm-connection-editor network-manager-applet
-  blueman pavucontrol thunar-shares thunar-archive-plugin
+  blueman pavucontrol thunar-shares-plugin thunar-archive-plugin
   python-pillow
   python-weasyprint poppler
   ttf-material-design-icons
